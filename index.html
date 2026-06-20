@@ -1,21 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
 
-  <!DOCTYPE html>
-  <html lang="ru">
-    <head>
-      
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=1280" />
-      <title>Liežuvis — литовский язык для русскоязычных</title>
-      <meta name="description" content="Liežuvis — мобильное приложение для системного изучения литовского языка для русскоязычных: уроки, грамматика, тренажёр форм, словарь и литовская озвучка." />
-      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
-      
-    </head>
+    <!-- Временно показываем десктопную версию на мобильных устройствах в масштабе -->
+    <meta name="viewport" content="width=1280" />
 
-    <body>
-      
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-      
-    </body>
-  </html>
-  
+    <title>Liežuvis — литовский язык для русскоязычных</title>
+
+    <meta
+      name="description"
+      content="Liežuvis — мобильное приложение для системного изучения литовского языка для русскоязычных: уроки, грамматика, тренажёр форм, словарь и литовская озвучка."
+    />
+
+    <!-- Цвет браузерной панели на поддерживаемых устройствах -->
+    <meta name="theme-color" content="#6750A4" />
+
+    <!-- Favicons / app icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph: превью ссылки в Facebook, Telegram, WhatsApp, LinkedIn и др. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Liežuvis" />
+    <meta property="og:title" content="Liežuvis — литовский язык для русскоязычных" />
+    <meta
+      property="og:description"
+      content="Мобильное приложение для системного изучения литовского языка: уроки, грамматика, тренажёр форм, словарь и литовская озвучка."
+    />
+    <meta property="og:url" content="https://www.liezuvis.app/" />
+    <meta property="og:image" content="https://www.liezuvis.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Liežuvis — приложение для изучения литовского языка" />
+    <meta property="og:locale" content="ru_RU" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Liežuvis — литовский язык для русскоязычных" />
+    <meta
+      name="twitter:description"
+      content="Мобильное приложение для системного изучения литовского языка: уроки, грамматика, тренажёр форм, словарь и литовская озвучка."
+    />
+    <meta name="twitter:image" content="https://www.liezuvis.app/og-image.png" />
+    <meta name="twitter:image:alt" content="Liežuvis — приложение для изучения литовского языка" />
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      #root {
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
