@@ -254,7 +254,7 @@ function HeroSection() {
         {/* Left / top column */}
         <div className="flex flex-col gap-[32px] items-center min-[1280px]:items-start w-full min-[1280px]:flex-1 min-[1280px]:min-w-0">
           <div className="flex flex-col gap-[32px] items-center min-[1280px]:items-start w-full">
-            <h1 className="font-['Roboto_Condensed',sans-serif] font-bold text-[#4f378a] text-[64px] leading-[72px] tracking-[-0.25px] text-center min-[1280px]:text-left">
+            <h1 className="font-['Roboto_Condensed',sans-serif] font-bold text-[#4f378a] text-[52px] leading-[56px] tracking-[-0.25px] text-center min-[1280px]:text-left">
               Литовский язык&nbsp;для русскоязычных
             </h1>
             <div className="flex flex-col gap-[16px] items-center min-[1280px]:items-start w-full">
