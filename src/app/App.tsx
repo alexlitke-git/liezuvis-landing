@@ -955,12 +955,35 @@ function ContactSection() {
     if (newErrors.name || newErrors.email || newErrors.message) return;
     setSendError(false);
     setIsSending(true);
-    // TODO (backend): replace setTimeout with real API call.
-    // On success: call markSent(). On failure: call setSendError(true).
-    setTimeout(() => {
-      setIsSending(false);
-      markSent();
-    }, 900);
+
+    fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name.trim(),
+        email: email.trim(),
+        message: message.trim(),
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to send message");
+        }
+
+        markSent();
+        setName("");
+        setEmail("");
+        setMessage("");
+      })
+      .catch(() => {
+        setSendError(true);
+      })
+      .finally(() => {
+        setIsSending(false);
+      }
+    );
   };
 
   const fieldClass = (field: "name" | "email" | "message") =>
