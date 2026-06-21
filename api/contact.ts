@@ -94,8 +94,15 @@ export default async function handler(req: any, res: any) {
     });
 
     return res.status(200).json({ ok: true });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Contact form error:", error);
-    return res.status(500).json({ error: "Failed to send message" });
+
+    return res.status(500).json({
+      error: "Failed to send message",
+      code: error?.code,
+      command: error?.command,
+      responseCode: error?.responseCode,
+      message: error?.message,
+    });
   }
 }
