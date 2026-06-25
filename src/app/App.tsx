@@ -786,6 +786,117 @@ function LegalPage({
   );
 }
 
+function DeleteAccountPage({ onBack }: { onBack: () => void }) {
+  return (
+    <section className="bg-white py-[40px]">
+      <div className="mx-auto w-full max-w-[680px] px-[20px] sm:px-[40px]">
+        <article>
+          <button
+            type="button"
+            onClick={onBack}
+            className="mb-[40px] rounded-[100px] bg-[#e8def8] px-[24px] py-[12px] font-['Roboto',sans-serif] font-medium text-[#4a4459] text-[16px] leading-[24px] tracking-[0.5px] hover:bg-[#d8cef0] transition-colors"
+          >
+            ← Вернуться на сайт
+          </button>
+
+          <header className="mb-[40px]">
+            <h1 className="font-['Roboto_Condensed',sans-serif] font-bold text-[#6750a4] text-[40px] leading-[48px] tracking-[-0.25px]">
+              Удаление аккаунта Liežuvis
+            </h1>
+
+            <p className="mt-[8px] font-['Roboto',sans-serif] font-normal text-[#625b71] text-[16px] leading-[24px] tracking-[0.5px]">
+              Delete Account
+            </p>
+          </header>
+
+          <div className="flex flex-col gap-[32px]">
+            <section>
+              <p className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">
+                Пользователи приложения Liežuvis могут удалить свой аккаунт и связанные с ним данные непосредственно в приложении.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="mb-[24px] font-['Roboto_Condensed',sans-serif] font-bold text-[#6750a4] text-[28px] leading-[36px] tracking-[-0.25px]">
+                Как удалить аккаунт
+              </h2>
+
+              <img
+                src="/images/delete-account-steps.png"
+                alt="Инструкция по удалению аккаунта Liežuvis"
+                className="mb-[24px] w-full rounded-[24px] border border-[#cac4d0]"
+              />
+
+              <ol className="flex flex-col gap-[12px] list-decimal pl-[24px]">
+                <li className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">
+                  Откройте приложение Liežuvis.
+                </li>
+                <li className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">
+                  Перейдите во вкладку «Профиль».
+                </li>
+                <li className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">
+                  Нажмите «Удалить аккаунт».
+                </li>
+                <li className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">
+                  Подтвердите удаление.
+                </li>
+              </ol>
+
+              <p className="mt-[16px] font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">
+                После подтверждения аккаунт будет удалён.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="mb-[24px] font-['Roboto_Condensed',sans-serif] font-bold text-[#6750a4] text-[28px] leading-[36px] tracking-[-0.25px]">
+                Какие данные удаляются
+              </h2>
+
+              <p className="mb-[12px] font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">
+                При удалении аккаунта удаляются:
+              </p>
+
+              <ul className="flex flex-col gap-[12px] list-disc pl-[24px]">
+                <li className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">профиль пользователя;</li>
+                <li className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">прогресс обучения;</li>
+                <li className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">результаты упражнений;</li>
+                <li className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">настройки пользователя;</li>
+                <li className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">данные доступа к приложению.</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="mb-[24px] font-['Roboto_Condensed',sans-serif] font-bold text-[#6750a4] text-[28px] leading-[36px] tracking-[-0.25px]">
+                Какие данные могут сохраняться
+              </h2>
+
+              <div className="flex flex-col gap-[12px]">
+                <p className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">
+                  Некоторые технические записи могут временно храниться в резервных копиях и журналах системы в целях обеспечения безопасности и восстановления работоспособности сервиса.
+                </p>
+
+                <p className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">
+                  Такие данные автоматически удаляются в соответствии с политикой хранения данных и не используются для идентификации пользователя после удаления аккаунта.
+                </p>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="mb-[24px] font-['Roboto_Condensed',sans-serif] font-bold text-[#6750a4] text-[28px] leading-[36px] tracking-[-0.25px]">
+                Контакты
+              </h2>
+
+              <p className="font-['Roboto',sans-serif] font-normal text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px]">
+                Если у вас возникли вопросы, свяжитесь с нами через форму обратной связи на сайте Liežuvis.
+              </p>
+            </section>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 // ─── Download / Buy banner ─────────────────────────────────────────────────────
 function AppStoreBadge() {
   return (
@@ -1181,6 +1292,7 @@ function Footer() {
         <div className="flex gap-[40px] items-center font-['Roboto',sans-serif] font-medium text-[#625b71] text-[14px] leading-[20px] tracking-[0.1px]">
           <a href="/privacy-policy" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">Политика конфиденциальности</a>
           <a href="/terms-of-use" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">Условия использования</a>
+          <a href="/delete-account" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">Удаление аккаунта</a>
           <a href="mailto:support@liezuvis.app" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">support@liezuvis.app</a>
         </div>
       </Container>
@@ -1193,10 +1305,11 @@ export default function App() {
   const getPageFromPath = () => {
     if (window.location.pathname === "/privacy-policy") return "privacy";
     if (window.location.pathname === "/terms-of-use") return "terms";
+    if (window.location.pathname === "/delete-account") return "delete-account";
     return "home";
   };
 
-  const [page, setPage] = useState<"home" | "privacy" | "terms">(getPageFromPath);
+  const [page, setPage] = useState<"home" | "privacy" | "terms" | "delete-account">(getPageFromPath);
   const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [buttonBottom, setButtonBottom] = useState(24);
@@ -1357,6 +1470,10 @@ export default function App() {
             blocks={TERMS_OF_USE}
             onBack={goHome}
           />
+        )}
+        
+        {page === "delete-account" && (
+          <DeleteAccountPage onBack={goHome} />
         )}
       </main>
 
