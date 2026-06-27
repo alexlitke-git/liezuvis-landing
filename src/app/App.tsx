@@ -479,7 +479,6 @@ function FeatureRow({
     </div>
   );
 }
-}
 
 function SectionText({ title, body, items }: { title: string; body: string; items: string[] }) {
   return (
