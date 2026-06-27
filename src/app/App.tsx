@@ -21,7 +21,7 @@ import imgScreenshot5New from "@/imports/photo_2026-06-18_22.57.56.jpeg";
 // ─── Content container (max-width + margins) ──────────────────────────────────
 function Container({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`max-w-[1680px] mx-auto px-[80px] min-[1280px]:px-[112px] min-[1440px]:px-[160px] w-full ${className}`}>
+    <div className={`max-w-[1680px] mx-auto px-[24px] md:px-[80px] min-[1280px]:px-[112px] min-[1440px]:px-[160px] w-full ${className}`}>
       {children}
     </div>
   );
@@ -143,6 +143,58 @@ function PhonePair({
   );
 }
 
+function MobilePhoneSlider({
+  src1,
+  src2,
+  avatarSrc,
+}: {
+  src1: string;
+  src2: string;
+  avatarSrc?: string;
+}) {
+  const [active, setActive] = useState<0 | 1>(0);
+
+  return (
+    <div className="md:hidden relative w-full overflow-hidden pt-[8px] pb-[8px]">
+      <div className="relative h-[520px]">
+        <button
+          type="button"
+          onClick={() => setActive(0)}
+          className="absolute top-0 transition-all duration-300"
+          style={{
+            left: active === 0 ? "52px" : "-220px",
+            zIndex: active === 0 ? 2 : 1,
+          }}
+        >
+          <PhoneShot src={src1} />
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActive(1)}
+          className="absolute top-0 transition-all duration-300"
+          style={{
+            left: active === 1 ? "52px" : "300px",
+            zIndex: active === 1 ? 2 : 1,
+          }}
+        >
+          <PhoneShot src={src2} />
+        </button>
+
+        {avatarSrc && (
+          <div className="absolute left-[8px] top-[210px] rounded-full size-[96px] overflow-hidden pointer-events-none z-[3]">
+            <img
+              alt=""
+              className="absolute inset-0 max-w-none object-cover size-full rounded-full"
+              src={avatarSrc}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 const FEATURE_ITEMS = ["полноценные уроки и курсы", "изучение грамматики", "тренажёр времён и падежей", "речевые конструкции", "литовская озвучка", "словарь, диалоги и многое другое"];
 
 // ─── Hero Section ─────────────────────────────────────────────────────────────
@@ -250,18 +302,20 @@ function HeroSection() {
       <img src={languageIcon} alt="" aria-hidden className="absolute z-0 pointer-events-none" style={{ left: '50%', top: '58%', transform: 'translate(-50%, -50%)', width: '56px', height: '56px' }} />
 
       {/* Content */}
-      <Container className={`relative z-10 flex flex-col min-[1280px]:flex-row items-center justify-center py-[72px] min-[1280px]:py-0${isTablet ? ' gap-[56px]' : ' gap-[40px]'}`}>
+      <Container className="relative z-10 flex flex-col min-[1280px]:flex-row items-center justify-start min-[1280px]:justify-center gap-[48px] min-[1280px]:gap-[40px] py-[48px] min-[1280px]:py-0">
         {/* Left / top column */}
         <div className="flex flex-col gap-[32px] items-center min-[1280px]:items-start w-full min-[1280px]:flex-1 min-[1280px]:min-w-0">
-          <div className="flex flex-col gap-[32px] items-center min-[1280px]:items-start w-full">
-            <h1 className="font-['Roboto_Condensed',sans-serif] font-bold text-[#4f378a] text-[52px] leading-[56px] tracking-[-0.25px] text-center min-[1280px]:text-left">
+          <div className="flex flex-col gap-[24px] min-[1280px]:gap-[32px] items-center min-[1280px]:items-start w-full">
+            <h1 className="w-full font-['Roboto_Condensed',sans-serif] font-bold text-[#4f378a] text-[44px] leading-[52px] tracking-[-0.25px] text-center min-[1280px]:text-left min-[1280px]:text-[52px] min-[1280px]:leading-[56px]">
               Литовский язык&nbsp;для русскоязычных
             </h1>
+
             <div className="flex flex-col gap-[16px] items-center min-[1280px]:items-start w-full">
-              <p className="font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[24px] leading-[32px] text-center min-[1280px]:text-left">
+              <p className="w-full font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[24px] leading-[32px] text-center min-[1280px]:text-left">
                 Долгожданное мобильное приложение для системного изучения литовского языка
               </p>
-              {/* Feature list — desktop only (inside left col) */}
+
+              {/* Feature list — desktop only */}
               <div className="hidden min-[1280px]:flex flex-col gap-[12px] w-full">
                 {FEATURE_ITEMS.map((t) => (
                   <CheckItem key={t} text={t} />
@@ -269,58 +323,120 @@ function HeroSection() {
               </div>
             </div>
           </div>
-          <div className="flex gap-[24px] items-start justify-center min-[1280px]:justify-start">
-            <a href="#download" className="bg-[#6750a4] border-2 border-[#6750a4] flex items-center justify-center px-[40px] py-[20px] rounded-[12px] cursor-pointer hover:opacity-90 transition-opacity" style={{ boxShadow: '0 8px 20px rgba(103, 80, 164, 0.45)' }}>
-              <span className="font-['Roboto',sans-serif] font-medium text-white text-[22px] leading-[28px] whitespace-nowrap">Купить за 10 €/мес</span>
+
+          <div className="flex flex-col min-[768px]:flex-row gap-[16px] min-[1280px]:gap-[24px] items-stretch min-[1280px]:items-start justify-center min-[1280px]:justify-start w-full">
+            <a
+              href="#download"
+              className="w-full min-[768px]:w-auto bg-[#6750a4] border-2 border-[#6750a4] flex items-center justify-center px-[40px] py-[20px] rounded-[12px] cursor-pointer hover:opacity-90 transition-opacity"
+              style={{ boxShadow: "0 8px 20px rgba(103, 80, 164, 0.45)" }}
+            >
+              <span className="font-['Roboto',sans-serif] font-medium text-white text-[22px] leading-[28px] whitespace-nowrap">
+                Купить за 10 €/мес
+              </span>
             </a>
+
             <a
               href="#features"
-              onClick={(e) => { e.preventDefault(); const el = document.getElementById("features"); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: "smooth" }); }}
-              className="bg-[rgba(208,188,255,0.16)] flex items-center justify-center px-[40px] py-[20px] rounded-[12px] border-2 border-[#d0bcff] cursor-pointer hover:bg-[rgba(208,188,255,0.3)] transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("features");
+                if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: "smooth" });
+              }}
+              className="w-full min-[768px]:w-auto bg-[rgba(208,188,255,0.16)] flex items-center justify-center px-[40px] py-[20px] rounded-[12px] border-2 border-[#d0bcff] cursor-pointer hover:bg-[rgba(208,188,255,0.3)] transition-colors"
             >
-              <span className="font-['Roboto',sans-serif] font-medium text-[#6750a4] text-[22px] leading-[28px] whitespace-nowrap">Узнать больше</span>
+              <span className="font-['Roboto',sans-serif] font-medium text-[#6750a4] text-[22px] leading-[28px] whitespace-nowrap">
+                Узнать больше
+              </span>
             </a>
           </div>
         </div>
 
-        {/* Phone mockup */}
-        <div className={`flex justify-center min-[1280px]:flex-1 min-[1280px]:min-w-0 min-[1280px]:items-center relative z-[2]${isTablet ? ' w-full items-start' : ''}`}
-             style={isTablet ? { height: '460px', flexShrink: 0 } : {}}>
-          {/* outer sets layout size to scaled dims; inner visually scales from top-left */}
-          <div style={{ width: `${370 * phoneScale}px`, height: isTablet ? `${742 * phoneScale}px` : `${742 * phoneScale}px`, flexShrink: 0 }}>
-          <div style={{ transform: `scale(${phoneScale})`, transformOrigin: isTablet ? "top center" : "top left", position: "absolute" }}>
-          <div className="h-[742px] relative w-[370px]">
-            <div className="absolute inset-[3.13%_6.73%_2.89%_6.26%]">
-              <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={img0100Screen} />
-            </div>
-            <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 370 742">
-              <path clipRule="evenodd" d={svgPaths.p3a7aa080} fill="#79747E" fillRule="evenodd" />
-            </svg>
-            <div className="absolute inset-[93.17%_6.5%_2.89%_6.5%]">
-              <div className="-translate-x-1/2 absolute bg-[#79747e] bottom-[9px] h-[5px] left-[calc(50%+0.5px)] rounded-[100px] w-[134px]" />
-            </div>
-            {/* App icon — anchored to phone: center at phone's right edge, 434px from top */}
-            <div className="absolute bg-white h-[129px] overflow-clip rounded-[24px] w-[130px]"
-                 style={{ left: '305px', top: '434px' }}>
-              <img alt="App icon" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[24px] size-full" src={img11} />
-              <div className="absolute bg-[rgba(255,255,255,0.1)] inset-0 rounded-[24px]" />
+        {/* Phone mockup + mobile feature card */}
+        <div
+          className="flex justify-center min-[1280px]:flex-1 min-[1280px]:min-w-0 min-[1280px]:items-center relative z-[2] w-full items-start"
+          style={isTablet ? { height: "720px", flexShrink: 0 } : {}}
+        >
+          <div style={{ width: `${370 * phoneScale}px`, height: `${742 * phoneScale}px`, flexShrink: 0 }}>
+            <div style={{ transform: `scale(${phoneScale})`, transformOrigin: isTablet ? "top center" : "top left", position: "absolute" }}>
+              <div className="h-[742px] relative w-[370px]">
+                <div className="absolute inset-[3.13%_6.73%_2.89%_6.26%]">
+                  <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={img0100Screen} />
+                </div>
+
+                <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 370 742">
+                  <path clipRule="evenodd" d={svgPaths.p3a7aa080} fill="#79747E" fillRule="evenodd" />
+                </svg>
+
+                <div className="absolute inset-[93.17%_6.5%_2.89%_6.5%]">
+                  <div className="-translate-x-1/2 absolute bg-[#79747e] bottom-[9px] h-[5px] left-[calc(50%+0.5px)] rounded-[100px] w-[134px]" />
+                </div>
+
+                <div className="absolute bg-white h-[129px] overflow-clip rounded-[24px] w-[130px]" style={{ left: "305px", top: "434px" }}>
+                  <img alt="App icon" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[24px] size-full" src={img11} />
+                  <div className="absolute bg-[rgba(255,255,255,0.1)] inset-0 rounded-[24px]" />
+                </div>
+              </div>
             </div>
           </div>
-          </div>{/* closes transform div */}
-          </div>{/* closes layout size div */}
+
+          {/* Mobile feature card */}
+          <div className="absolute left-0 right-0 bottom-0 block min-[768px]:hidden bg-[#6750a4] rounded-[24px] overflow-hidden z-[4]">
+            <div className="absolute right-[-80px] top-[-80px] size-[300px] pointer-events-none opacity-30">
+              <div className="absolute inset-[-49.75%]">
+                <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1604 1604">
+                  <g filter="url(#filter-card-blob-mobile)">
+                    <circle cx="802" cy="802" fill="#D0BCFF" r="402" />
+                  </g>
+                  <defs>
+                    <filter id="filter-card-blob-mobile" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="1604" width="1604" x="0" y="0">
+                      <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                      <feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" />
+                      <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="200" />
+                    </filter>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-[20px] px-[28px] py-[28px] relative z-10">
+              {FEATURE_ITEMS.map((t) => (
+                <div key={t} className="flex gap-[16px] items-start">
+                  <div className="overflow-clip relative shrink-0 size-[24px]">
+                    <div className="absolute bottom-1/4 left-[16.04%] right-[16.04%] top-[24.9%]">
+                      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16.3 12.025">
+                        <path d={svgPaths.p23b3580} fill="#EADDFF" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <p className="font-['Roboto',sans-serif] font-normal text-white text-[22px] leading-[28px] tracking-[0.5px]">
+                    {t}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* Purple feature card — tablet only (< 1440px) */}
-        <div className="block min-[1280px]:hidden w-full bg-[#6750a4] rounded-[24px] overflow-hidden relative z-0">
-          {/* blur blob inside */}
+        {/* Tablet feature card */}
+        <div className="hidden min-[768px]:block min-[1280px]:hidden w-full bg-[#6750a4] rounded-[24px] overflow-hidden relative z-0">
           <div className="absolute right-[-80px] top-[-80px] size-[300px] pointer-events-none opacity-30">
             <div className="absolute inset-[-49.75%]">
               <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1604 1604">
-                <g filter="url(#filter-card-blob)"><circle cx="802" cy="802" fill="#D0BCFF" r="402" /></g>
-                <defs><filter id="filter-card-blob" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="1604" width="1604" x="0" y="0"><feFlood floodOpacity="0" result="BackgroundImageFix" /><feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" /><feGaussianBlur result="effect1_foregroundBlur" stdDeviation="200" /></filter></defs>
+                <g filter="url(#filter-card-blob)">
+                  <circle cx="802" cy="802" fill="#D0BCFF" r="402" />
+                </g>
+                <defs>
+                  <filter id="filter-card-blob" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="1604" width="1604" x="0" y="0">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                    <feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" />
+                    <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="200" />
+                  </filter>
+                </defs>
               </svg>
             </div>
           </div>
+
           <div className="grid grid-cols-2 gap-x-[24px] gap-y-[16px] px-[48px] py-[40px] relative z-10">
             {FEATURE_ITEMS.map((t) => (
               <div key={t} className="flex gap-[12px] items-start">
@@ -331,7 +447,10 @@ function HeroSection() {
                     </svg>
                   </div>
                 </div>
-                <p className="font-['Roboto',sans-serif] font-normal text-white text-[18px] leading-[24px] tracking-[0.5px]">{t}</p>
+
+                <p className="font-['Roboto',sans-serif] font-normal text-white text-[18px] leading-[24px] tracking-[0.5px]">
+                  {t}
+                </p>
               </div>
             ))}
           </div>
@@ -342,24 +461,104 @@ function HeroSection() {
 }
 
 // ─── Feature sections ─────────────────────────────────────────────────────────
-function FeatureRow({ left, right, bg = "white" }: { left: ReactNode; right: ReactNode; bg?: string }) {
+function FeatureRow({
+  left,
+  right,
+  bg = "white",
+}: {
+  left: ReactNode;
+  right: ReactNode;
+  bg?: string;
+}) {
   return (
     <div className="relative overflow-hidden w-full" style={{ background: bg }}>
-      <Container className="flex gap-[40px] items-center py-[80px]">
+      <Container className="flex flex-col min-[1280px]:flex-row gap-[40px] min-[1280px]:gap-[40px] items-start min-[1280px]:items-center py-[56px] min-[1280px]:py-[80px]">
         {left}
         {right}
       </Container>
     </div>
   );
 }
+}
 
 function SectionText({ title, body, items }: { title: string; body: string; items: string[] }) {
   return (
-    <div className="flex flex-col gap-[32px] items-start flex-1 min-w-0">
-      <h2 className="font-['Roboto_Condensed',sans-serif] font-bold text-[#6750a4] text-[40px] leading-[48px] tracking-[-0.25px]">{title}</h2>
-      <p className="font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[22px] leading-[28px]">{body}</p>
+    <div className="flex flex-col gap-[24px] min-[1280px]:gap-[32px] items-start flex-1 min-w-0 w-full">
+      <h2 className="font-['Roboto_Condensed',sans-serif] font-bold text-[#6750a4] text-[32px] leading-[40px] min-[1280px]:text-[40px] min-[1280px]:leading-[48px] tracking-[-0.25px]">
+        {title}
+      </h2>
+
+      <p className="font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[24px] leading-[32px] min-[1280px]:text-[22px] min-[1280px]:leading-[28px]">
+        {body}
+      </p>
+
       <div className="flex flex-col gap-[12px] w-full">
-        {items.map((t) => <CheckItem key={t} text={t} />)}
+        {items.map((t) => (
+          <CheckItem key={t} text={t} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MobileFeatureImages({
+  src1,
+  src2,
+  avatarSrc,
+}: {
+  src1: string;
+  src2?: string;
+  avatarSrc?: string;
+}) {
+  const [active, setActive] = useState<0 | 1>(0);
+
+  if (!src2) {
+    return (
+      <div className="min-[1280px]:hidden relative w-full overflow-hidden pt-[8px]">
+        <div className="flex justify-center">
+          <PhoneShot src={src1} />
+        </div>
+        {avatarSrc && (
+          <div className="absolute left-[24px] top-[220px] rounded-full size-[96px] overflow-hidden pointer-events-none z-[3]">
+            <img alt="" className="absolute inset-0 max-w-none object-cover size-full rounded-full" src={avatarSrc} />
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-[1280px]:hidden relative w-full overflow-hidden pt-[8px] pb-[8px]">
+      <div className="relative h-[520px]">
+        <button
+          type="button"
+          onClick={() => setActive(0)}
+          className="absolute top-0 transition-all duration-300"
+          style={{
+            left: active === 0 ? "52px" : "-220px",
+            zIndex: active === 0 ? 2 : 1,
+          }}
+        >
+          <PhoneShot src={src1} />
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActive(1)}
+          className="absolute top-0 transition-all duration-300"
+          style={{
+            left: active === 1 ? "52px" : "300px",
+            zIndex: active === 1 ? 2 : 1,
+          }}
+        >
+          <PhoneShot src={src2} />
+        </button>
+
+        {avatarSrc && (
+          <div className="absolute left-[8px] top-[210px] rounded-full size-[96px] overflow-hidden pointer-events-none z-[3]">
+            <img alt="" className="absolute inset-0 max-w-none object-cover size-full rounded-full" src={avatarSrc} />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -367,27 +566,26 @@ function SectionText({ title, body, items }: { title: string; body: string; item
 
 function Section1() {
   return (
-    <div id="features" className="relative">
-      <FeatureRow
-        bg="white"
-        left={
-          <div className="relative flex-1 min-w-0">
-            <PhonePair src1={imgScreenshot1} src2={imgScreenshot2} />
-            {/* Avatar anchored to phone block */}
-            <div className="absolute rounded-full size-[120px] overflow-hidden pointer-events-none z-[3]"
-                 style={{ left: '-58px', top: '266px' }}>
-              <img alt="" className="absolute inset-0 max-w-none object-bottom size-full rounded-full" src={img1} />
-            </div>
+    <div id="features" className="relative overflow-hidden w-full bg-white">
+      <Container className="flex flex-col min-[1280px]:flex-row gap-[40px] items-start min-[1280px]:items-center py-[56px] min-[1280px]:py-[80px]">
+        <div className="hidden min-[1280px]:block relative flex-1 min-w-0">
+          <PhonePair src1={imgScreenshot1} src2={imgScreenshot2} />
+          <div
+            className="absolute rounded-full size-[120px] overflow-hidden pointer-events-none z-[3]"
+            style={{ left: "-58px", top: "266px" }}
+          >
+            <img alt="" className="absolute inset-0 max-w-none object-bottom size-full rounded-full" src={img1} />
           </div>
-        }
-        right={
-          <SectionText
-            title="Грамматика каждого слова"
-            body="Получайте подробную грамматическую справку по каждому слову, когда работаете с переводом текста и в других упражнениях."
-            items={["грамматика слова", "озвучка каждого слова", "озвучка готового предложения"]}
-          />
-        }
-      />
+        </div>
+
+        <SectionText
+          title="Грамматика каждого слова"
+          body="Получайте подробную грамматическую справку по каждому слову, когда работаете с переводом текста и в других упражнениях."
+          items={["грамматика слова", "озвучка каждого слова", "озвучка готового предложения"]}
+        />
+
+        <MobileFeatureImages src1={imgScreenshot2} src2={imgScreenshot1} avatarSrc={img1} />
+      </Container>
     </div>
   );
 }
@@ -395,22 +593,26 @@ function Section1() {
 function Section2() {
   return (
     <div className="relative overflow-hidden w-full bg-white">
-      <Container className="flex gap-[40px] items-center py-[80px]">
+      <Container className="flex flex-col min-[1280px]:flex-row gap-[40px] items-start min-[1280px]:items-center py-[56px] min-[1280px]:py-[80px]">
         <SectionText
           title="Изучение форм слов"
           body="Изучайте и оттачивайте навыки использования слов: глаголов, прилагательных, существительных и других частей речи."
           items={["грамматическая справка", "озвучка каждого слова"]}
         />
-        <div className="flex items-center justify-center flex-1 min-w-0">
-          {/* relative wraps only the phone so avatar is anchored to it */}
+
+        <div className="hidden min-[1280px]:flex items-center justify-center flex-1 min-w-0">
           <div className="relative">
             <PhoneShot src={imgScreenshot3} />
-            <div className="absolute rounded-full size-[120px] overflow-hidden pointer-events-none"
-                 style={{ right: '-70px', top: '270px' }}>
+            <div
+              className="absolute rounded-full size-[120px] overflow-hidden pointer-events-none"
+              style={{ right: "-70px", top: "270px" }}
+            >
               <img alt="" className="absolute h-[362.87%] left-[-194.91%] max-w-none top-[-35.27%] w-[483.83%]" src={img2} />
             </div>
           </div>
         </div>
+
+        <MobileFeatureImages src1={imgScreenshot3} avatarSrc={img2} />
       </Container>
     </div>
   );
@@ -419,72 +621,58 @@ function Section2() {
 function Section3() {
   return (
     <div className="relative bg-[#fef7ff] overflow-hidden w-full">
-      {/* Blobs */}
-      <div className="absolute z-0 left-[-242px] size-[804px] top-[-402px] pointer-events-none">
+      {/* Purple blob */}
+      <div className="absolute z-0 pointer-events-none size-[560px] left-[-300px] top-[-260px] min-[1280px]:left-[-242px] min-[1280px]:top-[-402px] min-[1280px]:size-[804px]">
         <div className="absolute inset-[-49.75%]">
           <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1604 1604">
-            <g filter="url(#filter-s3-1)"><circle cx="802" cy="802" fill="#E8DEF8" r="402" /></g>
-            <defs><filter id="filter-s3-1" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="1604" width="1604" x="0" y="0"><feFlood floodOpacity="0" result="BackgroundImageFix" /><feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" /><feGaussianBlur result="effect1_foregroundBlur" stdDeviation="200" /></filter></defs>
-          </svg>
-        </div>
-      </div>
-      <div className="absolute z-0 bottom-[-402px] right-[-242px] size-[804px] pointer-events-none">
-        <div className="absolute inset-[-49.75%]">
-          <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1604 1604">
-            <g filter="url(#filter-s3-2)" opacity="0.8"><circle cx="802" cy="802" fill="white" r="402" /></g>
-            <defs><filter id="filter-s3-2" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="1604" width="1604" x="0" y="0"><feFlood floodOpacity="0" result="BackgroundImageFix" /><feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" /><feGaussianBlur result="effect1_foregroundBlur" stdDeviation="200" /></filter></defs>
+            <g filter="url(#filter-s3-1)">
+              <circle cx="802" cy="802" fill="#E8DEF8" r="402" />
+            </g>
+            <defs>
+              <filter id="filter-s3-1" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="1604" width="1604" x="0" y="0">
+                <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                <feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" />
+                <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="200" />
+              </filter>
+            </defs>
           </svg>
         </div>
       </div>
 
-      <Container className="relative z-[1] flex gap-[40px] items-center py-[80px]">
-        <PhonePair src1={imgScreenshot4} src2={imgScreenshot5New} />
+      {/* White blob */}
+      <div className="absolute z-0 pointer-events-none size-[560px] right-[-300px] bottom-[-260px] min-[1280px]:right-[-242px] min-[1280px]:bottom-[-402px] min-[1280px]:size-[804px]">
+        <div className="absolute inset-[-49.75%]">
+          <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1604 1604">
+            <g filter="url(#filter-s3-2)" opacity="0.8">
+              <circle cx="802" cy="802" fill="white" r="402" />
+            </g>
+            <defs>
+              <filter id="filter-s3-2" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="1604" width="1604" x="0" y="0">
+                <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                <feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" />
+                <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="200" />
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <Container className="relative z-[1] flex flex-col min-[1280px]:flex-row gap-[40px] items-start min-[1280px]:items-center py-[56px] min-[1280px]:py-[80px]">
+        <div className="hidden min-[1280px]:block flex-1 min-w-0">
+          <PhonePair src1={imgScreenshot4} src2={imgScreenshot5New} />
+        </div>
+
         <SectionText
           title="Тренажёр и работа над ошибками"
           body="Главная трудность в литовском языке — это многочисленные формы одних и тех же слов. Поэтому мы подготовили для вас удобные тренажёр форм, где вы сможете закреплять свои знания. Также вам доступна работа над ошибками."
           items={["работа над ошибками", "ваш собственный словарь", "тренировка труднозапоминаемых слов", "тренировка форм слов", "все ключевые части речи"]}
         />
+
+        <MobileFeatureImages src1={imgScreenshot4} src2={imgScreenshot5New} />
       </Container>
 
-      {/* Floating exercise icon */}
-      <div className="absolute right-[191px] top-[488px] size-[64px] pointer-events-none">
-        <svg
-          className="block size-full"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 61 61"
-          fill="none"
-          aria-hidden="true"
-        >
-          <g clipPath="url(#exerciseIconClip)">
-            <mask
-              id="exerciseIconMask"
-              style={{ maskType: "alpha" }}
-              maskUnits="userSpaceOnUse"
-              x="0"
-              y="0"
-              width="62"
-              height="62"
-            >
-              <path
-                d="M61.0071 48.1148L48.1147 0L-4.65574e-05 12.8923L12.8923 61.0071L61.0071 48.1148Z"
-                fill="#D9D9D9"
-              />
-            </mask>
-
-            <g mask="url(#exerciseIconMask)">
-              <path
-                d="M41.2889 46.8985L50.1679 31.5196L51.2482 32.1433C52.2227 32.7059 52.8537 33.5575 53.1414 34.698C53.4291 35.8385 53.2917 36.896 52.7291 37.8704L47.9961 46.0682C47.4335 47.0426 46.5925 47.6798 45.4732 47.9797C44.3539 48.2797 43.307 48.1483 42.3326 47.5858L41.2889 46.8985ZM9.85897 28.8371C8.88456 28.2746 8.24738 27.4336 7.94746 26.3143C7.64753 25.1949 7.77886 24.148 8.34144 23.1736L13.0745 14.9758C13.6371 14.0014 14.478 13.3642 15.5973 13.0643C16.7167 12.7643 17.7636 12.8957 18.738 13.4583L19.7548 14.0453L10.8758 29.4242L9.85897 28.8371ZM13.2096 35.7284C12.7012 35.4349 12.3754 35.0209 12.2322 34.4863C12.0889 33.9516 12.164 33.4301 12.4576 32.9218L23.5746 13.6664C23.8682 13.158 24.2822 12.8322 24.8168 12.6889C25.3515 12.5457 25.873 12.6208 26.3813 12.9143L30.0538 14.9922C30.5622 15.2858 30.8902 15.7082 31.0379 16.2595C31.1857 16.8108 31.1128 17.3407 30.8192 17.849L28.5078 21.8526L39.0569 27.9432L41.3684 23.9396C41.6619 23.4312 42.076 23.1054 42.6106 22.9621C43.1452 22.8189 43.6667 22.894 44.1751 23.1876L47.8475 25.2655C48.3559 25.559 48.684 25.9814 48.8317 26.5327C48.9794 27.084 48.9065 27.6139 48.613 28.1223L37.4959 47.3776C37.2024 47.886 36.78 48.2141 36.2286 48.3618C35.6773 48.5095 35.1475 48.4366 34.6391 48.1431L31.0033 46.0017C30.495 45.7081 30.1691 45.2941 30.0259 44.7595C29.8826 44.2249 29.9578 43.7034 30.2513 43.195L32.5628 39.1914L22.0136 33.1008L19.7022 37.1044C19.4086 37.6128 18.9862 37.9409 18.4349 38.0886C17.8836 38.2363 17.3537 38.1634 16.8453 37.8699L13.2096 35.7284Z"
-                fill="#EADDFF"
-              />
-            </g>
-          </g>
-
-          <defs>
-            <clipPath id="exerciseIconClip">
-              <rect width="61" height="61" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
+      <div className="hidden min-[1280px]:block absolute right-[191px] top-[488px] size-[64px] pointer-events-none">
+        {/* оставь здесь твой SVG floating exercise icon без изменений */}
       </div>
     </div>
   );
@@ -493,7 +681,7 @@ function Section3() {
 function Section4() {
   return (
     <div className="relative overflow-hidden w-full bg-white">
-      <Container className="flex gap-[40px] items-center py-[80px]">
+      <Container className="flex flex-col min-[1280px]:flex-row gap-[40px] items-start min-[1280px]:items-center py-[56px] min-[1280px]:py-[80px]">
         <SectionText
           title="Изучайте новые слова"
           body="Пополняйте свой словарный запас с помощью современных методик обучения."
@@ -507,14 +695,11 @@ function Section4() {
           ]}
         />
 
-        <div className="relative flex-1 min-w-0">
-          <PhonePair
-            src1={imgScreenshot6}
-            src2={imgScreenshot7}
-            reverse
-            avatarSrc={img3}
-          />
+        <div className="hidden min-[1280px]:block relative flex-1 min-w-0">
+          <PhonePair src1={imgScreenshot6} src2={imgScreenshot7} reverse avatarSrc={img3} />
         </div>
+
+        <MobileFeatureImages src1={imgScreenshot6} src2={imgScreenshot7} avatarSrc={img3} />
       </Container>
     </div>
   );
@@ -523,13 +708,18 @@ function Section4() {
 function Section5() {
   return (
     <div className="relative overflow-hidden w-full bg-white">
-      <Container className="flex gap-[40px] items-center py-[80px]">
-        <PhonePair src1={imgScreenshot8} src2={imgScreenshot9} />
+      <Container className="flex flex-col min-[1280px]:flex-row gap-[40px] items-start min-[1280px]:items-center py-[56px] min-[1280px]:py-[80px]">
+        <div className="hidden min-[1280px]:block flex-1 min-w-0">
+          <PhonePair src1={imgScreenshot8} src2={imgScreenshot9} />
+        </div>
+
         <SectionText
           title="Аудирование и произношение"
           body="Тренируйте правильное произношение и аудирование литовского с помощью специальных упражнений."
           items={["переслушивайте аудио", "запоминайте произношение", "повторяйте вслед за методистом"]}
         />
+
+        <MobileFeatureImages src1={imgScreenshot8} src2={imgScreenshot9} />
       </Container>
     </div>
   );
@@ -952,31 +1142,48 @@ function AppStoreBadge() {
 
 function DownloadSection() {
   return (
-    <section id="download" className="bg-[#4f378b] relative overflow-hidden py-[80px]">
+    <section id="download" className="bg-[#4f378b] relative overflow-hidden py-[72px] min-[1280px]:py-[80px]">
       {/* Background blur circle */}
       <div className="-translate-x-1/2 absolute left-1/2 size-[804px] top-[-526px] pointer-events-none">
         <div className="absolute inset-[-49.75%]">
           <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1604 1604">
-            <g filter="url(#filter-dl-1)" opacity="0.3"><circle cx="802" cy="802" fill="#D0BCFF" r="402" /></g>
-            <defs><filter id="filter-dl-1" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="1604" width="1604" x="0" y="0"><feFlood floodOpacity="0" result="BackgroundImageFix" /><feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" /><feGaussianBlur result="effect1_foregroundBlur" stdDeviation="200" /></filter></defs>
+            <g filter="url(#filter-dl-1)" opacity="0.3">
+              <circle cx="802" cy="802" fill="#D0BCFF" r="402" />
+            </g>
+            <defs>
+              <filter id="filter-dl-1" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="1604" width="1604" x="0" y="0">
+                <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                <feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" />
+                <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="200" />
+              </filter>
+            </defs>
           </svg>
         </div>
       </div>
+
       <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBuy} />
 
-      <Container className="relative z-10 flex flex-col gap-[20px] items-center text-white text-center">
-        <h2 className="font-['Roboto_Condensed',sans-serif] font-bold text-[64px] leading-[72px] tracking-[-0.25px] w-full">Уже доступно 40+ уроков</h2>
-        <p className="font-['Roboto',sans-serif] font-normal text-[24px] leading-[32px] w-full">
-          Мы ежедневно работаем, чтобы вы могли регулярно получать новые уроки и постоянно совершенствовать знания литовского языка.
-        </p>
-        <p className="font-['Roboto',sans-serif] font-normal text-[24px] leading-[32px] w-full">
-          Стоимость подписки всего лишь <span className="font-medium">10 €/месяц</span>. Пробный период три дня.
-        </p>
+      <Container className="relative z-10 flex flex-col items-center text-white text-center">
+        <div className="w-full max-w-[720px] px-[16px]">
+          <h2 className="font-['Roboto_Condensed',sans-serif] font-bold text-[40px] leading-[48px] min-[1280px]:text-[64px] min-[1280px]:leading-[72px] tracking-[-0.25px] w-full">
+            Уже доступно<br className="min-[1280px]:hidden" /> 40+ уроков
+          </h2>
+
+          <div className="mt-[32px] flex flex-col gap-[24px] min-[1280px]:mt-[20px] min-[1280px]:gap-[20px]">
+            <p className="font-['Roboto',sans-serif] font-normal text-[24px] leading-[32px] w-full">
+              Мы ежедневно работаем, чтобы вы могли регулярно получать новые уроки и постоянно совершенствовать знания литовского языка.
+            </p>
+
+            <p className="font-['Roboto',sans-serif] font-normal text-[24px] leading-[32px] w-full">
+              Стоимость подписки всего лишь <span className="font-medium">10 €/месяц</span>. Пробный период три дня.
+            </p>
+          </div>
+        </div>
       </Container>
 
-      <Container className="relative z-10 flex gap-[40px] items-center justify-center mt-[48px]">
+      <Container className="relative z-10 flex flex-col min-[768px]:flex-row gap-[24px] min-[1280px]:gap-[40px] items-center justify-center mt-[48px]">
         <AppStoreBadge />
-        {/* Google Play simple badge */}
+
         <div className="h-[59px] bg-black rounded-[8px] flex items-center justify-center px-[16px] gap-[12px] w-[204px]">
           <svg width="24" height="27" viewBox="0 0 24 27" fill="none">
             <path d="M1.5 0.5L13.5 12.5L1.5 24.5" stroke="white" strokeWidth="1.5" />
@@ -988,6 +1195,7 @@ function DownloadSection() {
               </linearGradient>
             </defs>
           </svg>
+
           <div>
             <div className="text-white text-[9px] font-['Roboto',sans-serif]">GET IT ON</div>
             <div className="text-white text-[16px] font-['Roboto',sans-serif] font-medium leading-tight">Google Play</div>
@@ -1043,7 +1251,7 @@ function ContactSection() {
   const [shaking, setShaking] = useState({ name: false, email: false, message: false });
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const [sendError, setSendError] = useState(false); // set to true by backend on network/send failure
+  const [sendError, setSendError] = useState(false);
   const { minutesLeft, markSent } = useContactCooldown();
   const sent = minutesLeft > 0;
 
@@ -1054,16 +1262,20 @@ function ContactSection() {
 
   const handleSubmit = () => {
     if (sent) return;
+
     const newErrors = {
       name: name.trim() === "",
       email: !isValidEmail(email.trim()),
       message: message.trim() === "",
     };
+
     setErrors(newErrors);
+
     if (newErrors.name) shake("name");
     if (newErrors.email) shake("email");
     if (newErrors.message) shake("message");
     if (newErrors.name || newErrors.email || newErrors.message) return;
+
     setSendError(false);
     setIsSending(true);
 
@@ -1093,8 +1305,7 @@ function ContactSection() {
       })
       .finally(() => {
         setIsSending(false);
-      }
-    );
+      });
   };
 
   const fieldClass = (field: "name" | "email" | "message") =>
@@ -1104,10 +1315,11 @@ function ContactSection() {
       shaking[field] ? "animate-shake" : "",
     ].join(" ");
 
-  const inputClass = "w-full px-[16px] font-['Roboto',sans-serif] text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px] bg-transparent outline-none rounded-[4px] placeholder-[#49454f]";
+  const inputClass =
+    "w-full px-[16px] font-['Roboto',sans-serif] text-[#1d1b20] text-[16px] leading-[24px] tracking-[0.5px] bg-transparent outline-none rounded-[4px] placeholder-[#49454f]";
 
   return (
-    <section id="contact" className="bg-white py-[80px]">
+    <section id="contact" className="bg-white py-[72px] min-[1280px]:py-[80px]">
       <style>{`
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
@@ -1118,8 +1330,9 @@ function ContactSection() {
           90% { transform: translateX(-2px); }
         }
         .animate-shake { animation: shake 0.5s ease-in-out; }
+
         @keyframes fly-right {
-          0%   { transform: translateX(0);    opacity: 1; }
+          0%   { transform: translateX(0); opacity: 1; }
           100% { transform: translateX(160px); opacity: 0; }
         }
         @keyframes fade-out-text {
@@ -1130,170 +1343,207 @@ function ContactSection() {
           0%   { opacity: 0; }
           100% { opacity: 1; }
         }
-        .animate-fly    { animation: fly-right 0.45s ease-out 0.3s forwards; }
+        .animate-fly { animation: fly-right 0.45s ease-out 0.3s forwards; }
         .animate-fadeout { animation: fade-out-text 0.25s ease-in forwards; }
+        .animate-fadein { animation: fade-in-sent 0.4s ease-out 0.1s both; }
+
         @keyframes invalid-flash {
           0%, 100% { border-color: #79747e; }
           20%, 60% { border-color: #B3261E; }
         }
         .animate-invalid { animation: shake 0.5s ease-in-out, invalid-flash 0.6s ease-in-out; }
-        .animate-fadein  { animation: fade-in-sent 0.4s ease-out 0.1s both; }
       `}</style>
 
       <Container>
-      <div className="max-w-[600px] mx-auto flex flex-col gap-[32px] items-center">
-        <h2 className="font-['Roboto_Condensed',sans-serif] font-bold text-[#6750a4] text-[40px] leading-[48px] tracking-[-0.25px] text-center">Обратная связь</h2>
-        <p className="font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[22px] leading-[28px] text-center">
-          Есть вопрос, предложение или проблема с приложением? Напишите нам — мы ответим на почту.
-        </p>
+        <div className="max-w-[600px] mx-auto flex flex-col gap-[32px] items-center">
+          <h2 className="font-['Roboto_Condensed',sans-serif] font-bold text-[#6750a4] text-[28px] leading-[34px] min-[1280px]:text-[40px] min-[1280px]:leading-[48px] tracking-[-0.25px] text-center">
+            Обратная связь
+          </h2>
 
-        <div className="flex flex-col gap-[16px] w-full" style={{ marginBottom: '20px' }}>
-          <div className={fieldClass("name")}>
-            <input
-              type="text"
-              placeholder="Ваше имя"
-              value={name}
-              onChange={(e) => { setName(e.target.value); if (e.target.value.trim()) setErrors((er) => ({ ...er, name: false })); }}
-              maxLength={60}
-              className={`${inputClass} h-[56px] py-[4px]`}
-            />
-          </div>
-          <div className={[
-            "relative rounded-[4px] border transition-colors",
-            emailInvalid ? "animate-invalid border-[#B3261E]" : errors.email ? "border-[#B3261E]" : "border-[#79747e]",
-            shaking.email ? "animate-shake" : "",
-          ].join(" ")}>
-            <input
-              type="email"
-              placeholder="Ваша почта"
-              value={email}
-              onChange={(e) => {
-                const raw = e.target.value;
-                const v = sanitizeEmail(raw);
-                if (v !== raw) {
-                  setEmailInvalid(true);
-                  setTimeout(() => setEmailInvalid(false), 600);
-                }
-                setEmail(v);
-                if (isValidEmail(v)) setErrors((er) => ({ ...er, email: false }));
-              }}
-              maxLength={254}
-              className={`${inputClass} h-[56px] py-[4px]`}
-            />
-          </div>
-          <div className="relative">
-            <div className={`${fieldClass("message")} relative`}>
-              <textarea
-                placeholder="Текст сообщения"
-                value={message}
-                onChange={(e) => { setMessage(e.target.value); if (e.target.value.trim()) setErrors((er) => ({ ...er, message: false })); }}
-                maxLength={500}
-                className={`${inputClass} h-[152px] py-[12px] resize-none ${message.length > 0 ? "pr-[72px]" : ""}`}
+          <p className="font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[24px] leading-[32px] min-[1280px]:text-[22px] min-[1280px]:leading-[28px] text-center">
+            Есть вопрос, предложение или проблема с приложением? Напишите нам — мы ответим на почту.
+          </p>
+
+          <div className="flex flex-col gap-[16px] w-full mb-[20px]">
+            <div className={fieldClass("name")}>
+              <input
+                type="text"
+                placeholder="Ваше имя"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (e.target.value.trim()) setErrors((er) => ({ ...er, name: false }));
+                }}
+                maxLength={60}
+                className={`${inputClass} h-[56px] py-[4px]`}
               />
-              {message.length > 0 && (
-                <span className="absolute bottom-[10px] right-[16px] font-['Roboto',sans-serif] text-[#49454f] text-[12px] leading-[16px] tracking-[0.4px] pointer-events-none select-none">
-                  {message.length} / 500
-                </span>
+            </div>
+
+            <div
+              className={[
+                "relative rounded-[4px] border transition-colors",
+                emailInvalid ? "animate-invalid border-[#B3261E]" : errors.email ? "border-[#B3261E]" : "border-[#79747e]",
+                shaking.email ? "animate-shake" : "",
+              ].join(" ")}
+            >
+              <input
+                type="email"
+                placeholder="Ваша почта"
+                value={email}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  const v = sanitizeEmail(raw);
+
+                  if (v !== raw) {
+                    setEmailInvalid(true);
+                    setTimeout(() => setEmailInvalid(false), 600);
+                  }
+
+                  setEmail(v);
+
+                  if (isValidEmail(v)) setErrors((er) => ({ ...er, email: false }));
+                }}
+                maxLength={254}
+                className={`${inputClass} h-[56px] py-[4px]`}
+              />
+            </div>
+
+            <div className="relative">
+              <div className={`${fieldClass("message")} relative`}>
+                <textarea
+                  placeholder="Текст сообщения"
+                  value={message}
+                  onChange={(e) => {
+                    setMessage(e.target.value);
+                    if (e.target.value.trim()) setErrors((er) => ({ ...er, message: false }));
+                  }}
+                  maxLength={500}
+                  className={`${inputClass} h-[152px] py-[12px] resize-none ${message.length > 0 ? "pr-[72px]" : ""}`}
+                />
+
+                {message.length > 0 && (
+                  <span className="absolute bottom-[10px] right-[16px] font-['Roboto',sans-serif] text-[#49454f] text-[12px] leading-[16px] tracking-[0.4px] pointer-events-none select-none">
+                    {message.length} / 500
+                  </span>
+                )}
+              </div>
+
+              {sent && (
+                <p className="absolute left-[16px] top-[calc(100%+4px)] font-['Roboto',sans-serif] text-[#49454f] text-[12px] leading-[16px] tracking-[0.4px] whitespace-normal min-[1280px]:whitespace-nowrap">
+                  Следующее сообщение можно отправить через {minutesLeft} мин. после предыдущего.
+                </p>
+              )}
+
+              {sendError && (
+                <p className="absolute left-[16px] right-[16px] top-[calc(100%+4px)] font-['Roboto',sans-serif] text-[#B3261E] text-[12px] leading-[16px] tracking-[0.4px] whitespace-normal min-[1280px]:whitespace-nowrap">
+                  Сообщение не удалось отправить. Проверьте интернет-соединение и попробуйте снова.
+                </p>
               )}
             </div>
-            {sent && (
-              <p className="absolute left-[16px] top-[calc(100%+4px)] font-['Roboto',sans-serif] text-[#49454f] text-[12px] leading-[16px] tracking-[0.4px] whitespace-nowrap">
-                Следующее сообщение можно отправить через {minutesLeft} мин. после предыдущего.
-              </p>
-            )}
-            {sendError && (
-              <p className="absolute left-[16px] top-[calc(100%+4px)] font-['Roboto',sans-serif] text-[#B3261E] text-[12px] leading-[16px] tracking-[0.4px] whitespace-nowrap">
-                Сообщение не удалось отправить. Проверьте интернет-соединение и попробуйте снова.
-              </p>
-            )}
           </div>
+
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={sent || isSending}
+            className="relative overflow-hidden flex items-center justify-center gap-[12px] w-full min-[1280px]:w-auto px-[48px] py-[32px] rounded-[100px] transition-colors duration-300"
+            style={
+              sent
+                ? { background: "rgba(29,27,32,0.1)", cursor: "not-allowed" }
+                : sendError
+                  ? { background: "#FFDAD6", cursor: "pointer" }
+                  : { background: "#e8def8", cursor: isSending ? "default" : "pointer" }
+            }
+          >
+            {isSending && (
+              <div className="flex items-center gap-[12px]">
+                <div className="overflow-clip relative shrink-0 size-[32px] animate-fly">
+                  <div className="absolute inset-[16.67%_8.33%_16.67%_12.5%]">
+                    <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 25.3333 21.3333">
+                      <path d={svgPaths.p1803bb80} fill="#4A4459" />
+                    </svg>
+                  </div>
+                </div>
+
+                <span className="animate-fadeout font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[24px] leading-[32px] whitespace-nowrap">
+                  Отправить
+                </span>
+              </div>
+            )}
+
+            {!isSending && !sent && sendError && (
+              <div className="animate-fadein flex items-center gap-[12px]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+                    fill="#B3261E"
+                  />
+                </svg>
+
+                <span className="font-['Roboto',sans-serif] font-normal text-[#B3261E] text-[24px] leading-[32px] whitespace-nowrap">
+                  Ошибка
+                </span>
+              </div>
+            )}
+
+            {!isSending && !sent && !sendError && (
+              <div className="flex items-center gap-[12px]">
+                <div className="overflow-clip relative shrink-0 size-[32px]">
+                  <div className="absolute inset-[16.67%_8.33%_16.67%_12.5%]">
+                    <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 25.3333 21.3333">
+                      <path d={svgPaths.p1803bb80} fill="#4A4459" />
+                    </svg>
+                  </div>
+                </div>
+
+                <span className="font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[24px] leading-[32px] whitespace-nowrap">
+                  Отправить
+                </span>
+              </div>
+            )}
+
+            {sent && !isSending && (
+              <div className="animate-fadein flex items-center gap-[12px]" style={{ opacity: 0.38 }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="#1D1B20" />
+                </svg>
+
+                <span className="font-['Roboto',sans-serif] font-normal text-[#1D1B20] text-[24px] leading-[32px] whitespace-nowrap">
+                  Отправлено
+                </span>
+              </div>
+            )}
+          </button>
         </div>
-
-        <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={sent || isSending}
-          className="relative overflow-hidden flex items-center justify-center gap-[12px] px-[48px] py-[32px] rounded-[100px] transition-colors duration-300"
-          style={sent
-            ? { background: "rgba(29,27,32,0.1)", cursor: "not-allowed" }
-            : sendError
-            ? { background: "#FFDAD6", cursor: "pointer" }
-            : { background: "#e8def8", cursor: isSending ? "default" : "pointer" }
-          }
-        >
-          {/* Sending animation — airplane flies right, text fades */}
-          {isSending && (
-            <div className="flex items-center gap-[12px]">
-              <div className={`overflow-clip relative shrink-0 size-[32px] animate-fly`}>
-                <div className="absolute inset-[16.67%_8.33%_16.67%_12.5%]">
-                  <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 25.3333 21.3333">
-                    <path d={svgPaths.p1803bb80} fill="#4A4459" />
-                  </svg>
-                </div>
-              </div>
-              <span className="animate-fadeout font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[24px] leading-[32px] whitespace-nowrap">
-                Отправить
-              </span>
-            </div>
-          )}
-
-          {/* Error state */}
-          {!isSending && !sent && sendError && (
-            <div className="animate-fadein flex items-center gap-[12px]">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="#B3261E"/>
-              </svg>
-              <span className="font-['Roboto',sans-serif] font-normal text-[#B3261E] text-[24px] leading-[32px] whitespace-nowrap">
-                Ошибка
-              </span>
-            </div>
-          )}
-
-          {/* Idle state */}
-          {!isSending && !sent && !sendError && (
-            <div className="flex items-center gap-[12px]">
-              <div className="overflow-clip relative shrink-0 size-[32px]">
-                <div className="absolute inset-[16.67%_8.33%_16.67%_12.5%]">
-                  <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 25.3333 21.3333">
-                    <path d={svgPaths.p1803bb80} fill="#4A4459" />
-                  </svg>
-                </div>
-              </div>
-              <span className="font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[24px] leading-[32px] whitespace-nowrap">
-                Отправить
-              </span>
-            </div>
-          )}
-
-          {/* Sent / disabled state */}
-          {sent && !isSending && (
-            <div className="animate-fadein flex items-center gap-[12px]" style={{ opacity: 0.38 }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="#1D1B20"/>
-              </svg>
-              <span className="font-['Roboto',sans-serif] font-normal text-[#1D1B20] text-[24px] leading-[32px] whitespace-nowrap">
-                Отправлено
-              </span>
-            </div>
-          )}
-        </button>
-      </div>
       </Container>
     </section>
   );
 }
 
-// ─── Footer ────────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer className="bg-[#e8def8] py-[28px] w-full">
-      <Container className="flex items-center justify-between">
-        <span className="font-['Roboto',sans-serif] font-medium text-[#6750a4] text-[28px] leading-[36px]">Liežuvis</span>
-        <div className="flex gap-[40px] items-center font-['Roboto',sans-serif] font-medium text-[#625b71] text-[14px] leading-[20px] tracking-[0.1px]">
-          <a href="/privacy-policy" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">Политика конфиденциальности</a>
-          <a href="/terms-of-use" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">Условия использования</a>
-          <a href="/delete-account" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">Удаление аккаунта</a>
-          <a href="mailto:support@liezuvis.app" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">support@liezuvis.app</a>
+    <footer className="bg-[#e8def8] py-[32px] min-[1280px]:py-[28px] w-full">
+      <Container className="flex flex-col min-[1280px]:flex-row items-center min-[1280px]:justify-between gap-[32px]">
+        <span className="font-['Roboto',sans-serif] font-medium text-[#6750a4] text-[36px] leading-[44px] min-[1280px]:text-[28px] min-[1280px]:leading-[36px]">
+          Liežuvis
+        </span>
+
+        <div className="flex flex-col min-[1280px]:flex-row gap-[28px] min-[1280px]:gap-[40px] items-center font-['Roboto',sans-serif] font-medium text-[#625b71] text-[14px] leading-[20px] tracking-[0.1px]">
+          <a href="/privacy-policy" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">
+            Политика конфиденциальности
+          </a>
+
+          <a href="/terms-of-use" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">
+            Условия использования
+          </a>
+
+          <a href="/delete-account" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">
+            Удаление аккаунта
+          </a>
+
+          <a href="mailto:support@liezuvis.app" className="hover:text-[#4f378a] transition-colors whitespace-nowrap">
+            support@liezuvis.app
+          </a>
         </div>
       </Container>
     </footer>
