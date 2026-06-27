@@ -965,7 +965,7 @@ function DownloadSection() {
       <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBuy} />
 
       <Container className="relative z-10 flex flex-col gap-[20px] items-center text-white text-center">
-        <h2 className="font-['Roboto_Condensed',sans-serif] font-bold text-[64px] leading-[72px] tracking-[-0.25px] w-full">Уже доступно 99 уроков</h2>
+        <h2 className="font-['Roboto_Condensed',sans-serif] font-bold text-[64px] leading-[72px] tracking-[-0.25px] w-full">Уже доступно 40+ уроков</h2>
         <p className="font-['Roboto',sans-serif] font-normal text-[24px] leading-[32px] w-full">
           Мы ежедневно работаем, чтобы вы могли регулярно получать новые уроки и постоянно совершенствовать знания литовского языка.
         </p>
@@ -1471,7 +1471,7 @@ export default function App() {
             onBack={goHome}
           />
         )}
-        
+
         {page === "delete-account" && (
           <DeleteAccountPage onBack={goHome} />
         )}
