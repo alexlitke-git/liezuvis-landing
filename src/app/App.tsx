@@ -259,7 +259,7 @@ function HeroSection() {
             </h1>
             <div className="flex flex-col gap-[16px] items-center min-[1280px]:items-start w-full">
               <p className="font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[24px] leading-[32px] text-center min-[1280px]:text-left">
-                Долгожданное мобильное приложение для системного изучения литовского языка:
+                Долгожданное мобильное приложение для системного изучения литовского языка
               </p>
               {/* Feature list — desktop only (inside left col) */}
               <div className="hidden min-[1280px]:flex flex-col gap-[12px] w-full">
