@@ -224,10 +224,10 @@ function HeroSection() {
   }, []);
 
   const sectionStyle = isTablet
-    ? { minHeight: '720px' }
+    ? { minHeight: "auto" }
     : {
         height: `calc(100svh - ${HEADER_HEIGHT}px)`,
-        minHeight: '720px',
+        minHeight: "720px",
       };
 
   return (
@@ -299,7 +299,19 @@ function HeroSection() {
       </div>
 
       {/* Language icon — behind content, center of section, slightly below middle */}
-      <img src={languageIcon} alt="" aria-hidden className="absolute z-0 pointer-events-none" style={{ left: '50%', top: '58%', transform: 'translate(-50%, -50%)', width: '56px', height: '56px' }} />
+      <img
+        src={languageIcon}
+        alt=""
+        aria-hidden
+        className="absolute z-[3] pointer-events-none min-[1280px]:z-0"
+        style={{
+          left: isTablet ? "calc(50% + 182px)" : "50%",
+          top: isTablet ? "760px" : "58%",
+          transform: "translate(-50%, -50%)",
+          width: isTablet ? "88px" : "56px",
+          height: isTablet ? "88px" : "56px",
+        }}
+      />
 
       {/* Content */}
       <Container className="relative z-10 flex flex-col min-[1280px]:flex-row items-center justify-start min-[1280px]:justify-center gap-[48px] min-[1280px]:gap-[40px] py-[48px] min-[1280px]:py-0">
@@ -354,10 +366,16 @@ function HeroSection() {
         {/* Phone mockup + mobile feature card */}
         <div
           className="flex justify-center min-[1280px]:flex-1 min-[1280px]:min-w-0 min-[1280px]:items-center relative z-[2] w-full items-start"
-          style={isTablet ? { height: "720px", flexShrink: 0 } : {}}
+          style={isTablet ? { height: "860px", flexShrink: 0 } : {}}
         >
           <div style={{ width: `${370 * phoneScale}px`, height: `${742 * phoneScale}px`, flexShrink: 0 }}>
-            <div style={{ transform: `scale(${phoneScale})`, transformOrigin: isTablet ? "top center" : "top left", position: "absolute" }}>
+            <div style={{ transformOrigin: isTablet ? "top center" : "top left",
+              position: "absolute",
+              left: isTablet ? "50%" : undefined,
+              transform: isTablet
+                ? `translateX(-50%) scale(${phoneScale})`
+                : `scale(${phoneScale})` }}>
+
               <div className="h-[742px] relative w-[370px]">
                 <div className="absolute inset-[3.13%_6.73%_2.89%_6.26%]">
                   <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={img0100Screen} />
@@ -380,7 +398,7 @@ function HeroSection() {
           </div>
 
           {/* Mobile feature card */}
-          <div className="absolute left-0 right-0 bottom-0 block min-[768px]:hidden bg-[#6750a4] rounded-[24px] overflow-hidden z-[4]">
+          <div className="absolute left-0 right-0 bottom-[24px] block min-[768px]:hidden bg-[#6750a4] rounded-[24px] overflow-hidden z-[4]">
             <div className="absolute right-[-80px] top-[-80px] size-[300px] pointer-events-none opacity-30">
               <div className="absolute inset-[-49.75%]">
                 <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1604 1604">
