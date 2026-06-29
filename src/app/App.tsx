@@ -400,7 +400,7 @@ function HeroSection() {
           {/* Mobile feature card */}
           <div
             className="absolute left-0 right-0 block min-[768px]:hidden bg-[#6750a4] rounded-[24px] overflow-hidden z-[4]"
-            style={{ top: `${420 * phoneScale}px` }}
+            style={{ top: `${520 * phoneScale}px` }}
           >
             <div className="absolute right-[-80px] top-[-80px] size-[300px] pointer-events-none opacity-30">
               <div className="absolute inset-[-49.75%]">
