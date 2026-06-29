@@ -389,7 +389,7 @@ function HeroSection() {
                   <div className="-translate-x-1/2 absolute bg-[#79747e] bottom-[9px] h-[5px] left-[calc(50%+0.5px)] rounded-[100px] w-[134px]" />
                 </div>
 
-                <div className="absolute bg-white h-[129px] overflow-clip rounded-[24px] w-[130px]" style={{ left: "305px", top: "434px" }}>
+                <div className="absolute bg-white h-[129px] overflow-clip rounded-[24px] w-[130px]" style={{ left: "305px", top: "360px" }}>
                   <img alt="App icon" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[24px] size-full" src={img11} />
                   <div className="absolute bg-[rgba(255,255,255,0.1)] inset-0 rounded-[24px]" />
                 </div>
@@ -398,7 +398,10 @@ function HeroSection() {
           </div>
 
           {/* Mobile feature card */}
-          <div className="absolute left-0 right-0 bottom-[24px] block min-[768px]:hidden bg-[#6750a4] rounded-[24px] overflow-hidden z-[4]">
+          <div
+            className="absolute left-0 right-0 block min-[768px]:hidden bg-[#6750a4] rounded-[24px] overflow-hidden z-[4]"
+            style={{ top: `${420 * phoneScale}px` }}
+          >
             <div className="absolute right-[-80px] top-[-80px] size-[300px] pointer-events-none opacity-30">
               <div className="absolute inset-[-49.75%]">
                 <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1604 1604">
