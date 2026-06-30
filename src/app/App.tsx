@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import svgPaths from "@/imports/Frame23/svg-olo4zkfgdm";
 import img0100Screen from "@/imports/Frame23/04e9d54d1a01f6a0dc28b3561edc6a0af3a80fca.png";
 import img11 from "@/imports/Frame23/ddf64b505381a61b346435be8901aba185badec7.png";
@@ -54,6 +54,18 @@ function PhoneShot({ src }: { src: string }) {
     </div>
   );
 }
+
+const MOBILE_FEATURE_PHONE_SCALE = 1.08;
+const MOBILE_FEATURE_PHONE_WIDTH = (192 + 16) * MOBILE_FEATURE_PHONE_SCALE;
+const MOBILE_FEATURE_PHONE_HEIGHT = (410 + 16) * MOBILE_FEATURE_PHONE_SCALE;
+const MOBILE_FEATURE_PHONE_GAP = 40;
+
+const mobileFeatureSliderStyle = {
+  "--slideWidth": `${MOBILE_FEATURE_PHONE_WIDTH}px`,
+  "--slideHalfWidth": `${MOBILE_FEATURE_PHONE_WIDTH / 2}px`,
+  "--slideHeight": `${MOBILE_FEATURE_PHONE_HEIGHT}px`,
+  "--slideGap": `${MOBILE_FEATURE_PHONE_GAP}px`,
+} as CSSProperties;
 
 // ─── Two-phone layout: side-by-side on desktop, cascade on tablet ──────────────
 function PhonePair({
@@ -138,58 +150,6 @@ function PhonePair({
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function MobilePhoneSlider({
-  src1,
-  src2,
-  avatarSrc,
-}: {
-  src1: string;
-  src2: string;
-  avatarSrc?: string;
-}) {
-  const [active, setActive] = useState<0 | 1>(0);
-
-  return (
-    <div className="md:hidden relative w-full overflow-hidden pt-[8px] pb-[8px]">
-      <div className="relative h-[520px]">
-        <button
-          type="button"
-          onClick={() => setActive(0)}
-          className="absolute top-0 transition-all duration-300"
-          style={{
-            left: active === 0 ? "52px" : "-220px",
-            zIndex: active === 0 ? 2 : 1,
-          }}
-        >
-          <PhoneShot src={src1} />
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActive(1)}
-          className="absolute top-0 transition-all duration-300"
-          style={{
-            left: active === 1 ? "52px" : "300px",
-            zIndex: active === 1 ? 2 : 1,
-          }}
-        >
-          <PhoneShot src={src2} />
-        </button>
-
-        {avatarSrc && (
-          <div className="absolute left-[8px] top-[210px] rounded-full size-[96px] overflow-hidden pointer-events-none z-[3]">
-            <img
-              alt=""
-              className="absolute inset-0 max-w-none object-cover size-full rounded-full"
-              src={avatarSrc}
-            />
-          </div>
-        )}
       </div>
     </div>
   );
@@ -553,9 +513,9 @@ function MobileFeatureImages({
 
   if (!src2) {
     return (
-      <div className="min-[1280px]:hidden relative w-full overflow-hidden pt-[8px]">
-        <div className="flex justify-center">
-          <div className="scale-[1.08] origin-top">
+      <div className="min-[1280px]:hidden relative w-full overflow-hidden pt-[8px] pb-[8px]" style={mobileFeatureSliderStyle}>
+        <div className="relative mx-auto" style={{ width: "var(--slideWidth)", height: "var(--slideHeight)" }}>
+          <div className="absolute left-0 top-0 scale-[1.08] origin-top-left">
             <PhoneShot src={src1} />
           </div>
         </div>
@@ -564,24 +524,38 @@ function MobileFeatureImages({
   }
 
   return (
-    <div className="min-[1280px]:hidden relative w-screen left-1/2 -translate-x-1/2 overflow-hidden pt-[8px] pb-[8px]">
-      <div className="relative h-[690px]">
+    <div className="min-[1280px]:hidden relative w-screen left-1/2 -translate-x-1/2 overflow-hidden pt-[8px] pb-[8px]" style={mobileFeatureSliderStyle}>
+      <div className="relative" style={{ height: "var(--slideHeight)" }}>
         <div
-          className="absolute top-0 flex transition-transform duration-300 ease-out"
+          className="absolute top-0 grid transition-transform duration-300 ease-out"
           style={{
-            left: "calc(50vw - 185px)",
-            gap: "40px",
-            transform: active === 0 ? "translateX(0)" : "translateX(-410px)",
+            left: "calc(50vw - var(--slideHalfWidth))",
+            gridAutoColumns: "var(--slideWidth)",
+            gridAutoFlow: "column",
+            columnGap: "var(--slideGap)",
+            transform: active === 0 ? "translate3d(0, 0, 0)" : "translate3d(calc(0px - var(--slideWidth) - var(--slideGap)), 0, 0)",
           }}
         >
-          <button type="button" onClick={() => setActive(0)} className="shrink-0">
-            <div className="scale-[1.08] origin-top">
+          <button
+            type="button"
+            onClick={() => setActive(0)}
+            aria-pressed={active === 0}
+            className="relative shrink-0 cursor-pointer touch-manipulation border-0 bg-transparent p-0"
+            style={{ width: "var(--slideWidth)", height: "var(--slideHeight)" }}
+          >
+            <div className="absolute left-0 top-0 scale-[1.08] origin-top-left">
               <PhoneShot src={src1} />
             </div>
           </button>
 
-          <button type="button" onClick={() => setActive(1)} className="shrink-0">
-            <div className="scale-[1.08] origin-top">
+          <button
+            type="button"
+            onClick={() => setActive(1)}
+            aria-pressed={active === 1}
+            className="relative shrink-0 cursor-pointer touch-manipulation border-0 bg-transparent p-0"
+            style={{ width: "var(--slideWidth)", height: "var(--slideHeight)" }}
+          >
+            <div className="absolute left-0 top-0 scale-[1.08] origin-top-left">
               <PhoneShot src={src2} />
             </div>
           </button>
