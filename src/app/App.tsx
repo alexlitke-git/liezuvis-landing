@@ -545,11 +545,9 @@ function SectionText({ title, body, items }: { title: string; body: string; item
 function MobileFeatureImages({
   src1,
   src2,
-  avatarSrc,
 }: {
   src1: string;
   src2?: string;
-  avatarSrc?: string;
 }) {
   const [active, setActive] = useState<0 | 1>(0);
 
@@ -557,49 +555,49 @@ function MobileFeatureImages({
     return (
       <div className="min-[1280px]:hidden relative w-full overflow-hidden pt-[8px]">
         <div className="flex justify-center">
-          <PhoneShot src={src1} />
-        </div>
-        {avatarSrc && (
-          <div className="absolute left-[24px] top-[220px] rounded-full size-[96px] overflow-hidden pointer-events-none z-[3]">
-            <img alt="" className="absolute inset-0 max-w-none object-cover size-full rounded-full" src={avatarSrc} />
+          <div className="scale-[1.08] origin-top">
+            <PhoneShot src={src1} />
           </div>
-        )}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-[1280px]:hidden relative w-full overflow-hidden pt-[8px] pb-[8px]">
-      <div className="relative h-[520px]">
-        <button
-          type="button"
-          onClick={() => setActive(0)}
-          className="absolute top-0 transition-all duration-300"
+    <div className="min-[1280px]:hidden relative w-screen left-1/2 -translate-x-1/2 overflow-hidden pt-[8px] pb-[8px]">
+      <div className="relative h-[690px]">
+        <div
+          className="absolute top-0 left-0 flex transition-transform duration-300 ease-out"
           style={{
-            left: active === 0 ? "52px" : "-220px",
-            zIndex: active === 0 ? 2 : 1,
+            width: "300vw",
+            transform: active === 0 ? "translateX(0)" : "translateX(-100vw)",
           }}
         >
-          <PhoneShot src={src1} />
-        </button>
+          {/* Slide 1 */}
+          <button
+            type="button"
+            onClick={() => setActive(0)}
+            className="w-screen shrink-0 flex justify-center"
+          >
+            <div className="scale-[1.08] origin-top">
+              <PhoneShot src={src1} />
+            </div>
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setActive(1)}
-          className="absolute top-0 transition-all duration-300"
-          style={{
-            left: active === 1 ? "52px" : "300px",
-            zIndex: active === 1 ? 2 : 1,
-          }}
-        >
-          <PhoneShot src={src2} />
-        </button>
+          {/* Slide 2 */}
+          <button
+            type="button"
+            onClick={() => setActive(1)}
+            className="w-screen shrink-0 flex justify-center"
+          >
+            <div className="scale-[1.08] origin-top">
+              <PhoneShot src={src2} />
+            </div>
+          </button>
 
-        {avatarSrc && (
-          <div className="absolute left-[8px] top-[210px] rounded-full size-[96px] overflow-hidden pointer-events-none z-[3]">
-            <img alt="" className="absolute inset-0 max-w-none object-cover size-full rounded-full" src={avatarSrc} />
-          </div>
-        )}
+          {/* Empty slide only for spacing logic */}
+          <div className="w-screen shrink-0" />
+        </div>
       </div>
     </div>
   );
