@@ -1090,58 +1090,8 @@ function DeleteAccountPage({ onBack }: { onBack: () => void }) {
 
 // ─── Download / Buy banner ─────────────────────────────────────────────────────
 const APP_STORE_URL = "https://apps.apple.com/lt/app/lie%C5%BEuvis/id6782046281";
-
-function AppStoreBadge() {
-  return (
-    <div className="h-[59px] relative shrink-0 w-[204px]">
-      <div className="absolute contents inset-0">
-        <div className="absolute inset-[1.89%_0.56%]">
-          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 201.962 56.7736">
-            <path d={svgPaths.p10092c00} fill="black" />
-          </svg>
-        </div>
-        <div className="absolute inset-[15.54%_75.15%_20.68%_9.48%]">
-          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 31.4003 37.6296">
-            <g><path d={svgPaths.p201ab600} fill="white" /><path d={svgPaths.p26977700} fill="white" /></g>
-          </svg>
-        </div>
-        <div className="absolute inset-[45%_9.51%_11.47%_31.41%]">
-          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 120.641 25.6842">
-            <g>
-              <path d={svgPaths.p2a75db00} fill="white" />
-              <path d={svgPaths.p11ae7b00} fill="white" />
-              <path d={svgPaths.p19d10000} fill="white" />
-              <path d={svgPaths.p2ab30980} fill="white" />
-              <path d={svgPaths.p2ca23a80} fill="white" />
-              <path d={svgPaths.p1ad1bb80} fill="white" />
-              <path d={svgPaths.p139ce9f0} fill="white" />
-              <path d={svgPaths.p61b3700} fill="white" />
-            </g>
-          </svg>
-        </div>
-        <div className="absolute inset-[16.39%_10.22%_66.15%_32.35%]">
-          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 117.291 10.3014">
-            <g>
-              <path d={svgPaths.pf89dd80} fill="white" />
-              <path d={svgPaths.p269a3500} fill="white" />
-              <path d={svgPaths.p3d986f80} fill="white" />
-              <path d={svgPaths.p2069bd00} fill="white" />
-              <path d={svgPaths.p344c9f30} fill="white" />
-              <path d={svgPaths.p28870ba0} fill="white" />
-              <path d={svgPaths.p33f01f00} fill="white" />
-              <path d={svgPaths.p9e4dc00} fill="white" />
-              <path d={svgPaths.p37060080} fill="white" />
-              <path d={svgPaths.p31325580} fill="white" />
-              <path d={svgPaths.p3fb8c990} fill="white" />
-              <path d={svgPaths.p3a563980} fill="white" />
-              <path d={svgPaths.p256b7100} fill="white" />
-            </g>
-          </svg>
-        </div>
-      </div>
-    </div>
-  );
-}
+const APP_STORE_BADGE_SRC = "/images/app-store-badge.svg";
+const GOOGLE_PLAY_BADGE_SRC = "/images/google-play-badge.svg";
 
 function DownloadSection() {
   const [isGooglePlayModalOpen, setIsGooglePlayModalOpen] = useState(false);
@@ -1202,33 +1152,20 @@ function DownloadSection() {
           href={APP_STORE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Открыть Liežuvis в App Store"
-          className="block shrink-0 cursor-pointer"
+          aria-label="Download Liežuvis on the App Store"
+          className="inline-flex items-center justify-center transition-opacity hover:opacity-90"
         >
-          <AppStoreBadge />
+          <img alt="" className="h-[59px] w-auto" src={APP_STORE_BADGE_SRC} />
         </a>
 
         <button
           type="button"
           onClick={() => setIsGooglePlayModalOpen(true)}
           aria-haspopup="dialog"
-          className="h-[59px] bg-black rounded-[8px] flex items-center justify-center px-[16px] gap-[12px] w-[204px] border-0 cursor-pointer"
+          aria-label="Google Play availability"
+          className="inline-flex items-center justify-center transition-opacity hover:opacity-90 border-0 bg-transparent p-0 cursor-pointer"
         >
-          <svg width="24" height="27" viewBox="0 0 24 27" fill="none">
-            <path d="M1.5 0.5L13.5 12.5L1.5 24.5" stroke="white" strokeWidth="1.5" />
-            <path d="M0 1.5L12 13.5L0 25.5V1.5Z" fill="url(#gp1)" />
-            <defs>
-              <linearGradient id="gp1" x1="0" y1="1.5" x2="12" y2="13.5" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#00A0FF" />
-                <stop offset="1" stopColor="#00BEFF" />
-              </linearGradient>
-            </defs>
-          </svg>
-
-          <div>
-            <div className="text-white text-[9px] font-['Roboto',sans-serif]">GET IT ON</div>
-            <div className="text-white text-[16px] font-['Roboto',sans-serif] font-medium leading-tight">Google Play</div>
-          </div>
+          <img alt="" className="h-[59px] w-auto" src={GOOGLE_PLAY_BADGE_SRC} />
         </button>
       </Container>
 
