@@ -270,7 +270,7 @@ function HeroSection() {
       </div>{/* closes blobs overflow wrapper */}
 
       {/* Floating icons */}
-      <div className="absolute left-[80px] top-[200px] -rotate-15 opacity-60 pointer-events-none">
+      <div className="hidden min-[1280px]:block absolute left-[80px] top-[200px] -rotate-15 opacity-60 pointer-events-none">
         <div className="overflow-clip size-[48px]">
           <div className="absolute inset-[8.33%]">
             <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 40 40">
@@ -279,7 +279,7 @@ function HeroSection() {
           </div>
         </div>
       </div>
-      <div className="absolute right-[120px] top-[80px] rotate-15 opacity-60 pointer-events-none">
+      <div className="hidden min-[1280px]:block absolute right-[120px] top-[80px] rotate-15 opacity-60 pointer-events-none">
         <div className="overflow-clip size-[69px]">
           <div className="absolute inset-[4.17%]">
             <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 63.6545 63.6545">
@@ -288,7 +288,7 @@ function HeroSection() {
           </div>
         </div>
       </div>
-      <div className="absolute left-[60px] top-[80px] -rotate-15 opacity-60 pointer-events-none">
+      <div className="hidden min-[1280px]:block absolute left-[60px] top-[80px] -rotate-15 opacity-60 pointer-events-none">
         <div className="overflow-clip size-[69px]">
           <div className="absolute inset-[8.33%]">
             <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 57.8677 57.8677">
@@ -303,7 +303,7 @@ function HeroSection() {
         src={languageIcon}
         alt=""
         aria-hidden
-        className="absolute z-[3] pointer-events-none min-[1280px]:z-0"
+        className="hidden min-[1280px]:block absolute z-0 pointer-events-none"
         style={{
           left: isTablet ? "calc(50% + 182px)" : "50%",
           top: isTablet ? "760px" : "58%",
@@ -389,19 +389,37 @@ function HeroSection() {
                   <div className="-translate-x-1/2 absolute bg-[#79747e] bottom-[9px] h-[5px] left-[calc(50%+0.5px)] rounded-[100px] w-[134px]" />
                 </div>
 
-                <div className="absolute bg-white h-[129px] overflow-clip rounded-[24px] w-[130px]" style={{ left: "305px", top: "360px" }}>
-                  <img alt="App icon" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[24px] size-full" src={img11} />
-                  <div className="absolute bg-[rgba(255,255,255,0.1)] inset-0 rounded-[24px]" />
+                <div
+                  className="absolute bg-white overflow-clip rounded-[20px] min-[1280px]:rounded-[24px] pointer-events-none"
+                  style={
+                    isTablet
+                      ? {
+                          width: "90px",
+                          height: "90px",
+                          left: "calc(100% - 98px)",
+                          top: "360px",
+                        }
+                      : {
+                          width: "130px",
+                          height: "129px",
+                          left: "305px",
+                          top: "434px",
+                        }
+                  }
+                >
+                  <img
+                    alt="App icon"
+                    className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[20px] min-[1280px]:rounded-[24px] size-full"
+                    src={img11}
+                  />
+                  <div className="absolute bg-[rgba(255,255,255,0.1)] inset-0 rounded-[20px] min-[1280px]:rounded-[24px]" />
                 </div>
               </div>
             </div>
           </div>
 
           {/* Mobile feature card */}
-          <div
-            className="absolute left-0 right-0 block min-[768px]:hidden bg-[#6750a4] rounded-[24px] overflow-hidden z-[4]"
-            style={{ top: `${620 * phoneScale}px` }}
-          >
+          <div className="block min-[768px]:hidden bg-[#6750a4] rounded-[24px] overflow-hidden z-[4] mt-[-120px] mb-[40px] w-full">
             <div className="absolute right-[-80px] top-[-80px] size-[300px] pointer-events-none opacity-30">
               <div className="absolute inset-[-49.75%]">
                 <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1604 1604">
