@@ -1089,6 +1089,8 @@ function DeleteAccountPage({ onBack }: { onBack: () => void }) {
 }
 
 // ─── Download / Buy banner ─────────────────────────────────────────────────────
+const APP_STORE_URL = "https://apps.apple.com/lt/app/lie%C5%BEuvis/id6782046281";
+
 function AppStoreBadge() {
   return (
     <div className="h-[59px] relative shrink-0 w-[204px]">
@@ -1142,6 +1144,19 @@ function AppStoreBadge() {
 }
 
 function DownloadSection() {
+  const [isGooglePlayModalOpen, setIsGooglePlayModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isGooglePlayModalOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsGooglePlayModalOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isGooglePlayModalOpen]);
+
   return (
     <section id="download" className="bg-[#4f378b] relative overflow-hidden py-[72px] min-[1280px]:py-[80px]">
       {/* Background blur circle */}
@@ -1162,7 +1177,7 @@ function DownloadSection() {
         </div>
       </div>
 
-      <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBuy} />
+      <img alt="" className="hidden min-[1280px]:block absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgBuy} />
 
       <Container className="relative z-10 flex flex-col items-center text-white text-center">
         <div className="w-full max-w-[720px] px-[16px]">
@@ -1183,9 +1198,22 @@ function DownloadSection() {
       </Container>
 
       <Container className="relative z-10 flex flex-col min-[768px]:flex-row gap-[24px] min-[1280px]:gap-[40px] items-center justify-center mt-[48px]">
-        <AppStoreBadge />
+        <a
+          href={APP_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Открыть Liežuvis в App Store"
+          className="block shrink-0 cursor-pointer"
+        >
+          <AppStoreBadge />
+        </a>
 
-        <div className="h-[59px] bg-black rounded-[8px] flex items-center justify-center px-[16px] gap-[12px] w-[204px]">
+        <button
+          type="button"
+          onClick={() => setIsGooglePlayModalOpen(true)}
+          aria-haspopup="dialog"
+          className="h-[59px] bg-black rounded-[8px] flex items-center justify-center px-[16px] gap-[12px] w-[204px] border-0 cursor-pointer"
+        >
           <svg width="24" height="27" viewBox="0 0 24 27" fill="none">
             <path d="M1.5 0.5L13.5 12.5L1.5 24.5" stroke="white" strokeWidth="1.5" />
             <path d="M0 1.5L12 13.5L0 25.5V1.5Z" fill="url(#gp1)" />
@@ -1201,8 +1229,51 @@ function DownloadSection() {
             <div className="text-white text-[9px] font-['Roboto',sans-serif]">GET IT ON</div>
             <div className="text-white text-[16px] font-['Roboto',sans-serif] font-medium leading-tight">Google Play</div>
           </div>
-        </div>
+        </button>
       </Container>
+
+      {isGooglePlayModalOpen && (
+        <div
+          className="fixed inset-0 z-[1000] flex items-end justify-center bg-[rgba(0,0,0,0.45)] min-[768px]:items-center"
+          role="presentation"
+          onClick={() => setIsGooglePlayModalOpen(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="google-play-modal-title"
+            className="relative w-full bg-white rounded-t-[24px] p-[24px] min-[768px]:mx-[24px] min-[768px]:max-w-[520px] min-[768px]:rounded-[16px] min-[768px]:p-[40px]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setIsGooglePlayModalOpen(false)}
+              aria-label="Закрыть"
+              className="absolute right-[16px] top-[16px] flex size-[40px] items-center justify-center rounded-full border-0 bg-transparent text-[#6750a4] cursor-pointer"
+            >
+              <span aria-hidden className="text-[28px] leading-none">×</span>
+            </button>
+
+            <h3 id="google-play-modal-title" className="font-['Roboto_Condensed',sans-serif] font-bold text-[#6750a4] text-[32px] leading-[40px] tracking-[-0.25px] pr-[40px]">
+              Google Play
+            </h3>
+
+            <p className="mt-[20px] font-['Roboto',sans-serif] font-normal text-[#4a4459] text-[20px] leading-[28px]">
+              Приложение Liežuvis в Google Play находится на финальном этапе тестирования и скоро будет доступно. Пожалуйста, загляните сюда через несколько дней.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setIsGooglePlayModalOpen(false)}
+              className="mt-[32px] w-full min-[768px]:w-auto bg-[rgba(208,188,255,0.16)] flex items-center justify-center px-[32px] py-[14px] rounded-[12px] border-2 border-[#d0bcff] cursor-pointer hover:bg-[rgba(208,188,255,0.3)] transition-colors"
+            >
+              <span className="font-['Roboto',sans-serif] font-medium text-[#6750a4] text-[18px] leading-[24px] whitespace-nowrap">
+                Закрыть
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
