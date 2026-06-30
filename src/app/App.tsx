@@ -366,7 +366,7 @@ function HeroSection() {
         {/* Phone mockup + mobile feature card */}
         <div
           className="flex justify-center min-[1280px]:flex-1 min-[1280px]:min-w-0 min-[1280px]:items-center relative z-[2] w-full items-start"
-          style={isTablet ? { height: "1120px", flexShrink: 0 } : {}}
+          style={isTablet ? { height: "1000px", flexShrink: 0 } : {}}
         >
           <div style={{ width: `${370 * phoneScale}px`, height: `${742 * phoneScale}px`, flexShrink: 0 }}>
             <div style={{ transformOrigin: isTablet ? "top center" : "top left",
