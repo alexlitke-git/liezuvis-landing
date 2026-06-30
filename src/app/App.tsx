@@ -625,7 +625,7 @@ function Section1() {
           items={["грамматика слова", "озвучка каждого слова", "озвучка готового предложения"]}
         />
 
-        <MobileFeatureImages src1={imgScreenshot2} src2={imgScreenshot1} avatarSrc={img1} />
+        <MobileFeatureImages src1={imgScreenshot2} src2={imgScreenshot1} />
       </Container>
     </div>
   );
@@ -653,7 +653,7 @@ function Section2() {
           </div>
         </div>
 
-        <MobileFeatureImages src1={imgScreenshot3} avatarSrc={img2} />
+        <MobileFeatureImages src1={imgScreenshot3} />
       </Container>
     </div>
   );
@@ -740,7 +740,7 @@ function Section4() {
           <PhonePair src1={imgScreenshot6} src2={imgScreenshot7} reverse avatarSrc={img3} />
         </div>
 
-        <MobileFeatureImages src1={imgScreenshot6} src2={imgScreenshot7} avatarSrc={img3} />
+        <MobileFeatureImages src1={imgScreenshot6} src2={imgScreenshot7} />
       </Container>
     </div>
   );
