@@ -567,36 +567,24 @@ function MobileFeatureImages({
     <div className="min-[1280px]:hidden relative w-screen left-1/2 -translate-x-1/2 overflow-hidden pt-[8px] pb-[8px]">
       <div className="relative h-[690px]">
         <div
-          className="absolute top-0 left-0 flex transition-transform duration-300 ease-out"
+          className="absolute top-0 flex transition-transform duration-300 ease-out"
           style={{
-            width: "300vw",
-            transform: active === 0 ? "translateX(0)" : "translateX(-100vw)",
+            left: "calc(50vw - 185px)",
+            gap: "40px",
+            transform: active === 0 ? "translateX(0)" : "translateX(-410px)",
           }}
         >
-          {/* Slide 1 */}
-          <button
-            type="button"
-            onClick={() => setActive(0)}
-            className="w-screen shrink-0 flex justify-center"
-          >
+          <button type="button" onClick={() => setActive(0)} className="shrink-0">
             <div className="scale-[1.08] origin-top">
               <PhoneShot src={src1} />
             </div>
           </button>
 
-          {/* Slide 2 */}
-          <button
-            type="button"
-            onClick={() => setActive(1)}
-            className="w-screen shrink-0 flex justify-center"
-          >
+          <button type="button" onClick={() => setActive(1)} className="shrink-0">
             <div className="scale-[1.08] origin-top">
               <PhoneShot src={src2} />
             </div>
           </button>
-
-          {/* Empty slide only for spacing logic */}
-          <div className="w-screen shrink-0" />
         </div>
       </div>
     </div>
