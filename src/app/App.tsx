@@ -160,17 +160,25 @@ const FEATURE_ITEMS = ["полноценные уроки и курсы", "из�
 // ─── Hero Section ─────────────────────────────────────────────────────────────
 function HeroSection() {
   const HEADER_HEIGHT = 72;
+  const MOBILE_PHONE_SCALE = 0.84;
+  const TABLET_PHONE_SCALE = 0.9;
+  const MOBILE_CARD_OVERLAP = 122;
 
   const [phoneScale, setPhoneScale] = useState(1);
   const [isTablet, setIsTablet] = useState(window.innerWidth < 1280);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const update = () => {
-      const tablet = window.innerWidth < 1280;
+      const width = window.innerWidth;
+      const mobile = width < 768;
+      const tablet = width < 1280;
+
+      setIsMobile(mobile);
       setIsTablet(tablet);
 
       if (tablet) {
-        setPhoneScale(0.9);
+        setPhoneScale(mobile ? MOBILE_PHONE_SCALE : TABLET_PHONE_SCALE);
       } else {
         const sectionH = Math.max(window.innerHeight - HEADER_HEIGHT, 720);
         const available = sectionH - 144; // 72px padding top & bottom
@@ -191,7 +199,7 @@ function HeroSection() {
       };
 
   return (
-    <section id="hero" className="bg-[#fef7ff] relative flex items-center" style={sectionStyle}>
+    <section id="hero" className="bg-[#fef7ff] relative flex items-center overflow-x-clip min-[1280px]:overflow-x-visible" style={sectionStyle}>
       {/* Blobs wrapper — overflow-hidden here so blobs don't escape section, but content can overflow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Blurred blobs */}
@@ -274,7 +282,7 @@ function HeroSection() {
       />
 
       {/* Content */}
-      <Container className="relative z-10 flex flex-col min-[1280px]:flex-row items-center justify-start min-[1280px]:justify-center gap-[48px] min-[1280px]:gap-[40px] py-[48px] min-[1280px]:py-0">
+      <Container className="relative z-10 flex flex-col min-[1280px]:flex-row items-center justify-start min-[1280px]:justify-center gap-[48px] min-[1280px]:gap-[40px] pt-[48px] pb-[40px] min-[768px]:pb-[48px] min-[1280px]:py-0">
         {/* Left / top column */}
         <div className="flex flex-col gap-[32px] items-center min-[1280px]:items-start w-full min-[1280px]:flex-1 min-[1280px]:min-w-0">
           <div className="flex flex-col gap-[24px] min-[1280px]:gap-[32px] items-center min-[1280px]:items-start w-full">
@@ -325,10 +333,10 @@ function HeroSection() {
 
         {/* Phone mockup + mobile feature card */}
         <div
-          className="flex justify-center min-[1280px]:flex-1 min-[1280px]:min-w-0 min-[1280px]:items-center relative z-[2] w-full items-start"
-          style={isTablet ? { height: "1000px", flexShrink: 0 } : {}}
+          className="flex flex-col items-center min-[768px]:flex-row min-[768px]:justify-center min-[768px]:items-start min-[1280px]:flex-1 min-[1280px]:min-w-0 min-[1280px]:items-center relative z-[2] w-full"
+          style={isMobile ? { flexShrink: 0 } : isTablet ? { height: "1000px", flexShrink: 0 } : {}}
         >
-          <div style={{ width: `${370 * phoneScale}px`, height: `${742 * phoneScale}px`, flexShrink: 0 }}>
+          <div style={{ width: `${370 * phoneScale}px`, height: `${742 * phoneScale}px`, flexShrink: 0, position: isMobile ? "relative" : undefined }}>
             <div style={{ transformOrigin: isTablet ? "top center" : "top left",
               position: "absolute",
               left: isTablet ? "50%" : undefined,
@@ -349,39 +357,60 @@ function HeroSection() {
                   <div className="-translate-x-1/2 absolute bg-[#79747e] bottom-[9px] h-[5px] left-[calc(50%+0.5px)] rounded-[100px] w-[134px]" />
                 </div>
 
-                <div
-                  className="absolute bg-white overflow-clip rounded-[20px] min-[1280px]:rounded-[24px] pointer-events-none"
-                  style={
-                    isTablet
-                      ? {
-                          width: "90px",
-                          height: "90px",
-                          left: "calc(100% - 98px)",
-                          top: "360px",
-                        }
-                      : {
-                          width: "130px",
-                          height: "129px",
-                          left: "305px",
-                          top: "434px",
-                        }
-                  }
-                >
-                  <img
-                    alt="App icon"
-                    className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[20px] min-[1280px]:rounded-[24px] size-full"
-                    src={img11}
-                  />
-                  <div className="absolute bg-[rgba(255,255,255,0.1)] inset-0 rounded-[20px] min-[1280px]:rounded-[24px]" />
-                </div>
+                {!isMobile && (
+                  <div
+                    className="absolute bg-white overflow-clip rounded-[20px] min-[1280px]:rounded-[24px] pointer-events-none"
+                    style={
+                      isTablet
+                        ? {
+                            width: "90px",
+                            height: "90px",
+                            left: "calc(100% - 98px)",
+                            top: "360px",
+                          }
+                        : {
+                            width: "130px",
+                            height: "129px",
+                            left: "305px",
+                            top: "434px",
+                          }
+                    }
+                  >
+                    <img
+                      alt="App icon"
+                      className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[20px] min-[1280px]:rounded-[24px] size-full"
+                      src={img11}
+                    />
+                    <div className="absolute bg-[rgba(255,255,255,0.1)] inset-0 rounded-[20px] min-[1280px]:rounded-[24px]" />
+                  </div>
+                )}
               </div>
             </div>
+
+            {isMobile && (
+              <div
+                className="absolute bg-white overflow-clip rounded-[20px] pointer-events-none z-[3]"
+                style={{
+                  width: "90px",
+                  height: "90px",
+                  left: "calc(100% - 45px)",
+                  top: `${360 * TABLET_PHONE_SCALE}px`,
+                }}
+              >
+                <img
+                  alt="App icon"
+                  className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[20px] size-full"
+                  src={img11}
+                />
+                <div className="absolute bg-[rgba(255,255,255,0.1)] inset-0 rounded-[20px]" />
+              </div>
+            )}
           </div>
 
           {/* Mobile feature card */}
           <div
-            className="absolute left-0 right-0 block min-[768px]:hidden bg-[#6750a4] rounded-[24px] overflow-hidden z-[4]"
-            style={{ top: `${620 * phoneScale}px` }}
+            className="relative block min-[768px]:hidden w-full bg-[#6750a4] rounded-[24px] overflow-hidden z-[4]"
+            style={{ marginTop: `${-MOBILE_CARD_OVERLAP * phoneScale}px` }}
           >
             <div className="absolute right-[-80px] top-[-80px] size-[300px] pointer-events-none opacity-30">
               <div className="absolute inset-[-49.75%]">
