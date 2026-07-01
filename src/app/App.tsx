@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import svgPaths from "@/imports/Frame23/svg-olo4zkfgdm";
 import img0100Screen from "@/imports/Frame23/04e9d54d1a01f6a0dc28b3561edc6a0af3a80fca.png";
 import img11 from "@/imports/Frame23/ddf64b505381a61b346435be8901aba185badec7.png";
@@ -166,6 +166,7 @@ function HeroSection() {
   const [phoneScale, setPhoneScale] = useState(1);
   const [isTablet, setIsTablet] = useState(window.innerWidth < 1280);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const scrollAnimationRef = useRef<number | null>(null);
 
   useEffect(() => {
     const update = () => {
@@ -197,12 +198,32 @@ function HeroSection() {
         minHeight: "720px",
       };
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = (id: string, duration = 650) => {
     const el = document.getElementById(id);
     if (!el) return;
 
-    const top = el.getBoundingClientRect().top + window.scrollY - HEADER_HEIGHT;
-    window.scrollTo({ top, behavior: "smooth" });
+    const start = window.scrollY;
+    const target = el.getBoundingClientRect().top + start - HEADER_HEIGHT;
+    const distance = target - start;
+    const startedAt = performance.now();
+    const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+    if (scrollAnimationRef.current !== null) {
+      cancelAnimationFrame(scrollAnimationRef.current);
+    }
+
+    const step = (now: number) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      window.scrollTo(0, start + distance * easeInOutCubic(progress));
+
+      if (progress < 1) {
+        scrollAnimationRef.current = requestAnimationFrame(step);
+      } else {
+        scrollAnimationRef.current = null;
+      }
+    };
+
+    scrollAnimationRef.current = requestAnimationFrame(step);
   };
 
   return (
@@ -316,7 +337,7 @@ function HeroSection() {
               href="#download"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection("download");
+                scrollToSection("download", 1000);
               }}
               className="w-full min-[768px]:w-auto bg-[#6750a4] border-2 border-[#6750a4] flex items-center justify-center px-[40px] py-[20px] rounded-[12px] cursor-pointer hover:opacity-90 transition-opacity"
               style={{ boxShadow: "0 8px 20px rgba(103, 80, 164, 0.45)" }}
@@ -330,7 +351,7 @@ function HeroSection() {
               href="#features"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection("features");
+                scrollToSection("features", 650);
               }}
               className="w-full min-[768px]:w-auto bg-[rgba(208,188,255,0.16)] flex items-center justify-center px-[40px] py-[20px] rounded-[12px] border-2 border-[#d0bcff] cursor-pointer hover:bg-[rgba(208,188,255,0.3)] transition-colors"
             >
@@ -1611,6 +1632,7 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [buttonBottom, setButtonBottom] = useState(24);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -1690,6 +1712,11 @@ export default function App() {
     scrollToElement();
   };
 
+  const handleNavClick = (id: string) => {
+    setIsMenuOpen(false);
+    scrollTo(id);
+  };
+
   return (
     <div className="min-h-screen bg-white font-['Roboto',sans-serif]">
       {/* ── Sticky Header ── */}
@@ -1698,43 +1725,101 @@ export default function App() {
       >
         <Container className="flex items-center justify-between">
           <button
-            onClick={() => scrollTo("hero")}
+            onClick={() => handleNavClick("hero")}
             className="font-['Roboto',sans-serif] font-medium text-[#6750a4] text-center leading-[44px] transition-all duration-300 cursor-pointer bg-transparent border-none"
             style={{ fontSize: scrolled ? "26px" : "36px" }}
           >
             Liežuvis
           </button>
 
-          <nav className="flex gap-[40px] items-center font-['Roboto',sans-serif] font-medium text-[#625b71] text-[14px] leading-[20px] tracking-[0.1px]">
+          <nav className="hidden min-[1280px]:flex gap-[40px] items-center font-['Roboto',sans-serif] font-medium text-[#625b71] text-[14px] leading-[20px] tracking-[0.1px]">
             <button
-              onClick={() => scrollTo("hero")}
+              onClick={() => handleNavClick("hero")}
               className="hover:text-[#4f378a] transition-colors cursor-pointer bg-transparent border-none font-medium text-[14px] tracking-[0.1px]"
             >
               В начало
             </button>
 
             <button
-              onClick={() => scrollTo("features")}
+              onClick={() => handleNavClick("features")}
               className="hover:text-[#4f378a] transition-colors cursor-pointer bg-transparent border-none font-medium text-[14px] tracking-[0.1px]"
             >
               Преимущества
             </button>
 
             <button
-              onClick={() => scrollTo("download")}
+              onClick={() => handleNavClick("download")}
               className="hover:text-[#4f378a] transition-colors cursor-pointer bg-transparent border-none font-medium text-[14px] tracking-[0.1px]"
             >
               Скачать
             </button>
 
             <button
-              onClick={() => scrollTo("contact")}
+              onClick={() => handleNavClick("contact")}
               className="hover:text-[#4f378a] transition-colors cursor-pointer bg-transparent border-none font-medium text-[14px] tracking-[0.1px]"
             >
               Обратная связь
             </button>
           </nav>
+
+          <button
+            type="button"
+            aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-header-menu"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            className="flex min-[1280px]:hidden size-[32px] items-center justify-center bg-transparent border-none cursor-pointer text-[#4a4459]"
+          >
+            {isMenuOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M15.999 15.085L26.4199 4.66504L27.835 6.08008L17.4141 16.5L27.835 26.9199L26.4199 28.335L15.999 17.9141L5.20703 28.707L3.79297 27.293L14.585 16.5L3.79297 5.70703L5.20703 4.29297L15.999 15.085Z" fill="#4A4459" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M32 25H0V23H32V25ZM32 17H0V15H32V17ZM32 9H0V7H32V9Z" fill="#4A4459" />
+              </svg>
+            )}
+          </button>
         </Container>
+
+        {isMenuOpen && (
+          <nav
+            id="mobile-header-menu"
+            className="absolute left-0 right-0 top-[72px] z-50 flex flex-col items-center gap-[28px] border-b border-[#cac4d0] bg-white py-[32px] shadow-[0_12px_24px_rgba(0,0,0,0.08)] min-[1280px]:hidden font-['Roboto',sans-serif] font-medium text-[#625b71] text-[18px] leading-[24px] tracking-[0.1px]"
+          >
+            <button
+              type="button"
+              onClick={() => handleNavClick("hero")}
+              className="hover:text-[#4f378a] transition-colors cursor-pointer bg-transparent border-none font-medium text-[18px] leading-[24px] tracking-[0.1px]"
+            >
+              В начало
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleNavClick("features")}
+              className="hover:text-[#4f378a] transition-colors cursor-pointer bg-transparent border-none font-medium text-[18px] leading-[24px] tracking-[0.1px]"
+            >
+              Преимущества
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleNavClick("download")}
+              className="hover:text-[#4f378a] transition-colors cursor-pointer bg-transparent border-none font-medium text-[18px] leading-[24px] tracking-[0.1px]"
+            >
+              Скачать
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleNavClick("contact")}
+              className="hover:text-[#4f378a] transition-colors cursor-pointer bg-transparent border-none font-medium text-[18px] leading-[24px] tracking-[0.1px]"
+            >
+              Обратная связь
+            </button>
+          </nav>
+        )}
       </header>
 
       {/* ── Page Content ── */}
