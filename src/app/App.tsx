@@ -21,7 +21,7 @@ import imgScreenshot5New from "@/imports/photo_2026-06-18_22.57.56.jpeg";
 // ─── Content container (max-width + margins) ──────────────────────────────────
 function Container({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`max-w-[1680px] mx-auto px-[24px] md:px-[80px] min-[1280px]:px-[112px] min-[1440px]:px-[160px] w-full ${className}`}>
+    <div className={`max-w-[1680px] mx-auto px-[24px] md:max-[1280px]:px-[80px] min-[1280px]:max-[1440px]:px-[112px] min-[1440px]:px-[160px] w-full ${className}`}>
       {children}
     </div>
   );
@@ -1531,7 +1531,7 @@ function ContactSection() {
 
 function Footer() {
   return (
-    <footer className="bg-[#e8def8] py-[32px] min-[1280px]:py-[28px] w-full">
+    <footer className="bg-[#e8def8] pt-[32px] pb-[80px] min-[1280px]:py-[28px] w-full">
       <Container className="flex flex-col min-[1280px]:flex-row items-center min-[1280px]:justify-between gap-[32px]">
         <span className="font-['Roboto',sans-serif] font-medium text-[#6750a4] text-[36px] leading-[44px] min-[1280px]:text-[28px] min-[1280px]:leading-[36px]">
           Liežuvis
