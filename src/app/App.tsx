@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import svgPaths from "@/imports/Frame23/svg-olo4zkfgdm";
 import img0100Screen from "@/imports/Frame23/04e9d54d1a01f6a0dc28b3561edc6a0af3a80fca.png";
 import img11 from "@/imports/Frame23/ddf64b505381a61b346435be8901aba185badec7.png";
@@ -59,6 +59,7 @@ const MOBILE_FEATURE_PHONE_SCALE = 1.08;
 const MOBILE_FEATURE_PHONE_WIDTH = (192 + 16) * MOBILE_FEATURE_PHONE_SCALE;
 const MOBILE_FEATURE_PHONE_HEIGHT = (410 + 16) * MOBILE_FEATURE_PHONE_SCALE;
 const MOBILE_FEATURE_PHONE_GAP = 40;
+const MOBILE_FEATURE_SWIPE_THRESHOLD = 45;
 
 const mobileFeatureSliderStyle = {
   "--slideWidth": `${MOBILE_FEATURE_PHONE_WIDTH}px`,
@@ -570,6 +571,59 @@ function MobileFeatureImages({
   src2?: string;
 }) {
   const [active, setActive] = useState<0 | 1>(0);
+  const swipeStartRef = useRef<{ x: number; y: number; pointerId: number } | null>(null);
+  const lastSwipeAtRef = useRef(0);
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    swipeStartRef.current = {
+      x: event.clientX,
+      y: event.clientY,
+      pointerId: event.pointerId,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const start = swipeStartRef.current;
+
+    if (!start) return;
+
+    const deltaX = event.clientX - start.x;
+    const deltaY = event.clientY - start.y;
+
+    swipeStartRef.current = null;
+
+    if (event.currentTarget.hasPointerCapture(start.pointerId)) {
+      event.currentTarget.releasePointerCapture(start.pointerId);
+    }
+
+    if (Math.abs(deltaX) < MOBILE_FEATURE_SWIPE_THRESHOLD || Math.abs(deltaX) <= Math.abs(deltaY)) {
+      return;
+    }
+
+    lastSwipeAtRef.current = Date.now();
+    setActive(deltaX < 0 ? 1 : 0);
+  };
+
+  const handlePointerCancel = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const start = swipeStartRef.current;
+
+    swipeStartRef.current = null;
+
+    if (start && event.currentTarget.hasPointerCapture(start.pointerId)) {
+      event.currentTarget.releasePointerCapture(start.pointerId);
+    }
+  };
+
+  const handleSlideClick = (slide: 0 | 1, event: ReactMouseEvent<HTMLButtonElement>) => {
+    if (Date.now() - lastSwipeAtRef.current < 350) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    setActive(slide);
+  };
 
   if (!src2) {
     return (
@@ -584,7 +638,13 @@ function MobileFeatureImages({
   }
 
   return (
-    <div className="min-[1280px]:hidden relative w-screen left-1/2 -translate-x-1/2 overflow-hidden pt-[8px] pb-[8px]" style={mobileFeatureSliderStyle}>
+    <div
+      className="min-[1280px]:hidden relative w-screen left-1/2 -translate-x-1/2 overflow-hidden pt-[8px] pb-[8px]"
+      onPointerCancel={handlePointerCancel}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerEnd}
+      style={{ ...mobileFeatureSliderStyle, touchAction: "pan-y" }}
+    >
       <div className="relative" style={{ height: "var(--slideHeight)" }}>
         <div
           className="absolute top-0 grid transition-transform duration-300 ease-out"
@@ -598,10 +658,10 @@ function MobileFeatureImages({
         >
           <button
             type="button"
-            onClick={() => setActive(0)}
+            onClick={(event) => handleSlideClick(0, event)}
             aria-pressed={active === 0}
-            className="relative shrink-0 cursor-pointer touch-manipulation border-0 bg-transparent p-0"
-            style={{ width: "var(--slideWidth)", height: "var(--slideHeight)" }}
+            className="relative shrink-0 cursor-pointer border-0 bg-transparent p-0"
+            style={{ width: "var(--slideWidth)", height: "var(--slideHeight)", touchAction: "pan-y" }}
           >
             <div className="absolute left-0 top-0 scale-[1.08] origin-top-left">
               <PhoneShot src={src1} />
@@ -610,10 +670,10 @@ function MobileFeatureImages({
 
           <button
             type="button"
-            onClick={() => setActive(1)}
+            onClick={(event) => handleSlideClick(1, event)}
             aria-pressed={active === 1}
-            className="relative shrink-0 cursor-pointer touch-manipulation border-0 bg-transparent p-0"
-            style={{ width: "var(--slideWidth)", height: "var(--slideHeight)" }}
+            className="relative shrink-0 cursor-pointer border-0 bg-transparent p-0"
+            style={{ width: "var(--slideWidth)", height: "var(--slideHeight)", touchAction: "pan-y" }}
           >
             <div className="absolute left-0 top-0 scale-[1.08] origin-top-left">
               <PhoneShot src={src2} />
@@ -725,7 +785,7 @@ function Section3() {
 
         <SectionText
           title="Тренажёр и работа над ошибками"
-          body="Главная трудность в литовском языке — это многочисленные формы одних и тех же слов. Поэтому мы подготовили для вас удобные тренажёр форм, где вы сможете закреплять свои знания. Также вам доступна работа над ошибками."
+          body="Главная трудность в литовском языке — это многочисленные формы одних и тех же слов. Поэтому мы подготовили для вас удобный тренажёр форм, где вы сможете закреплять свои знания. Также вам доступна работа над ошибками."
           items={["работа над ошибками", "ваш собственный словарь", "тренировка труднозапоминаемых слов", "тренировка форм слов", "все ключевые части речи"]}
         />
 
@@ -1201,7 +1261,7 @@ function DownloadSection() {
             </p>
 
             <p className="font-['Roboto',sans-serif] font-normal text-[20px] leading-[28px] min-[1280px]:text-[24px] min-[1280px]:leading-[32px] w-full">
-              Стоимость подписки всего лишь <span className="font-medium">10 €/месяц</span>. Пробный период три дня — попробуйте бесплатно.
+              Стоимость подписки всего лишь <span className="font-medium">10 €/месяц</span>. Пробный период три дня — попробуйте бесплатно!
             </p>
           </div>
         </div>
