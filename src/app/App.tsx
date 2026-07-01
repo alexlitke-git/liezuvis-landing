@@ -197,6 +197,14 @@ function HeroSection() {
         minHeight: "720px",
       };
 
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const top = el.getBoundingClientRect().top + window.scrollY - HEADER_HEIGHT;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
   return (
     <section id="hero" className="bg-[#fef7ff] relative flex items-center overflow-x-clip min-[1280px]:overflow-x-visible" style={sectionStyle}>
       {/* Blobs wrapper — overflow-hidden here so blobs don't escape section, but content can overflow */}
@@ -306,6 +314,10 @@ function HeroSection() {
           <div className="flex flex-col min-[768px]:flex-row gap-[16px] min-[1280px]:gap-[24px] items-stretch min-[1280px]:items-start justify-center min-[1280px]:justify-start w-full">
             <a
               href="#download"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("download");
+              }}
               className="w-full min-[768px]:w-auto bg-[#6750a4] border-2 border-[#6750a4] flex items-center justify-center px-[40px] py-[20px] rounded-[12px] cursor-pointer hover:opacity-90 transition-opacity"
               style={{ boxShadow: "0 8px 20px rgba(103, 80, 164, 0.45)" }}
             >
@@ -318,8 +330,7 @@ function HeroSection() {
               href="#features"
               onClick={(e) => {
                 e.preventDefault();
-                const el = document.getElementById("features");
-                if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: "smooth" });
+                scrollToSection("features");
               }}
               className="w-full min-[768px]:w-auto bg-[rgba(208,188,255,0.16)] flex items-center justify-center px-[40px] py-[20px] rounded-[12px] border-2 border-[#d0bcff] cursor-pointer hover:bg-[rgba(208,188,255,0.3)] transition-colors"
             >
