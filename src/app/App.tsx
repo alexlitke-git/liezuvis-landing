@@ -1201,7 +1201,7 @@ function DownloadSection() {
             </p>
 
             <p className="font-['Roboto',sans-serif] font-normal text-[20px] leading-[28px] min-[1280px]:text-[24px] min-[1280px]:leading-[32px] w-full">
-              Стоимость подписки всего лишь <span className="font-medium">10 €/месяц</span>. Пробный период три дня.
+              Стоимость подписки всего лишь <span className="font-medium">10 €/месяц</span>. Пробный период три дня — попробуйте бесплатно.
             </p>
           </div>
         </div>
@@ -1721,7 +1721,7 @@ export default function App() {
     <div className="min-h-screen bg-white font-['Roboto',sans-serif]">
       {/* ── Sticky Header ── */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300 border-b border-[#cac4d0] h-[72px] flex items-center"
+        className={`fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300 border-b h-[72px] flex items-center ${isMenuOpen ? "border-transparent min-[1280px]:border-[#cac4d0]" : "border-[#cac4d0]"}`}
       >
         <Container className="flex items-center justify-between">
           <button
