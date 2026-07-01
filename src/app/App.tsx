@@ -393,8 +393,8 @@ function HeroSection() {
                 style={{
                   width: "90px",
                   height: "90px",
-                  left: "calc(100% - 45px)",
-                  top: `${360 * TABLET_PHONE_SCALE}px`,
+                  left: "calc(100% - 61px)",
+                  top: `${360 * TABLET_PHONE_SCALE - 20}px`,
                 }}
               >
                 <img
